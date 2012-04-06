@@ -1,8 +1,13 @@
 m = new Model();
 v = new View();
 
-$('.container').append(JSON.stringify(m.get_items()));
-$('.container').append(JSON.stringify(m.get_filters()));
+//$('.container').append(JSON.stringify(m.get_items()));
+//$('.container').append(JSON.stringify(m.get_filters()));
+
+v.draw_filters(m.get_filters());
+
+v.draw_grid(m.get_items());
+
 //If there's a search string in the url, set loading graphics, populate model with that search string and then draw 
 
 //Bind all our UI buttons...
