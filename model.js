@@ -19,7 +19,16 @@ Model.prototype.get_items = function() {
     var metadata2 = {"author":"Theodore Roosevelt",
                      "title":"Letter to yellow journalsts during the Rough Riders campaign."};
     var item2 = new Item(2,metadata2);
-    return [item1,item2];
+    var metadata3 = {"author":"Michael Jordan",
+                     "title":"Letter to Dennis Rodman and Scottie Pippen"};
+    var item3 = new Item(3,metadata3);
+    var metadata4 = {"author":"John Muir",
+                     "title":"Letter to Michael Jordan about TR's sick dunking skills"};
+    var item4 = new Item(4,metadata4);
+    var metadata5 = {"author":"Michael Jackson",
+                     "title":"CHAMON-AAH!"};
+    var item5 = new Item(5,metadata5);
+    return [item1,item2, item3, item4, item5];
 }
 Model.prototype.get_filters = function(){
     //returns filters in the format
