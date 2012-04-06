@@ -20,7 +20,8 @@ Model.prototype.get_items = function() {
                      "title":"Letter to yellow journalsts during the Rough Riders campaign."};
     var item2 = new Item(2,metadata2);
     var metadata3 = {"author":"Michael Jordan",
-                     "title":"Letter to Dennis Rodman and Scottie Pippen"};
+                     "title":"Letter to Dennis Rodman and Scottie Pippen about John Muir's ridiculous defense",
+                     "img":"http://www.exclusivecribs.com/celebrities/michael-jordan/thumbnail/michael_jordan.jpg"};
     var item3 = new Item(3,metadata3);
     var metadata4 = {"author":"John Muir",
                      "title":"Letter to Michael Jordan about TR's sick dunking skills"};
@@ -35,7 +36,7 @@ Model.prototype.get_filters = function(){
     //{ "current": key1:[value1,value2], key2:[value3,value4], 
     //  "suggested": key3:[value5,value6], key2:[value7,value8] }
 
-    return { "current": [["Collection","World's Greatest Library Special Collection"],["Author","Thomas Edison"],["Author","Michael Jordan"]], "suggested": {"Author":["Theodore Roosevelt","John Muir","Susan B. Anthony","Herbert Hoover"], "Location":["Los Angeles","Abu Dhabi"] }};
+    return { "current": [["Collection","World's Greatest Library Special Collection"],["Author","Thomas Edison"],["Author","Michael Jordan"]], "suggested": {"Author":["Theodore Roosevelt","John Muir","Susan B. Anthony","Herbert Hoover"], "Location":["Los Angeles","Abu Dhabi","Chicago"], "Type":["Letter","Book","Dunk Footage"] }};
 }
 Model.prototype.update = function(items){
     //replaces the current item list with the one supplied here

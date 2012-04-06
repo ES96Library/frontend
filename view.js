@@ -1,8 +1,8 @@
 function View(m){
     //This object draws stuff in HTML
     //View settings go here (i.e. how many things per row, etc)
-	this.gridcolumns = 3;//determines number of thumbnail results displayed per row
-	
+	this.gridcolumns = 3;//determines size of thumbnails, also determining number of thumbnails displayed per row
+	this.default_image = 'http://placehold.it/260x180'//define the default placeholder image
 }
 View.prototype.clear_filters = function(){
     //put loading graphic in filters pane
@@ -48,7 +48,15 @@ View.prototype.draw_grid = function(item_list){
    
     
     for (var i = 0; i<item_list.length; i++) {
-    	html += '<li class="span'+ this.gridcolumns + '"><div class="thumbnail"><img src="http://placehold.it/260x180" alt=""><h5>'
+    	
+    	//check for an image associated with the item, else add the placeholder image
+    	if(item_list[i].metadata['img']) {
+    		img = item_list[i].metadata['img']}    		
+    	else {
+    		img = this.default_image;
+    		};
+    		
+    	html += '<li class="span'+ this.gridcolumns + '"><div class="thumbnail"><img src="' + img + '" alt=""><h5>'
     	html += item_list[i].metadata['title'] + '</h5><p>'
     	html += item_list[i].metadata['author'] + '</p></div></li>';
 	
