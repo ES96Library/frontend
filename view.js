@@ -17,10 +17,9 @@ View.prototype.draw_filters = function(filters){
 	var current = filters.current;
 	var suggested = filters.suggested;
     
-    html+='<ul class="nav nav-tabs nav-stacked">';
     
 	for (var index in current) {
-    	html += '<li><a href="#">' + current[index][0] + ': ' + current[index][1] + '</a></li>';
+    	html += '<div class="alert alert-info"><a class="close">x</a><strong>' + current[index][0] + ':</strong> ' + current[index][1] + '</div>';
     }
     	
     	html+='</ul><ul class="nav nav-list">';
