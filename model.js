@@ -7,24 +7,27 @@ function Item(id, metadata){
 function Model(){
     //This object has a list of Items
 
-    var metadata1 = {"author":"Thomas Edison",
-                     "title":"Invention of the Lightbulb: a bunch of long words that are going to take up space and make us think about how to deal with long titles when writing the view",
+    var metadata1 = {"author":"Michael Jordan",
+                     "title":"Invention of the Lightbulb: Edison is a credit stealing SOB. A bunch of long words that are going to take up space and make us think about how to deal with long titles when writing the view",
                      "type":"Manuscript",
-                     "description":"Detail of the first public demonstration of something that Thomas Edison made about incandescent lighting systems in December 1879. Blah blah blah blah blah."};
+                     "description":"Detail of the first public demonstration of something that Michael Jordan made about incandescent lighting systems in December 1879. Blah blah blah blah blah.",
+                     "img":"http://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Jordan_by_Lipofsky_16577.jpg/170px-Jordan_by_Lipofsky_16577.jpg"};
     var item1 = new Item(1,metadata1);
-    var metadata2 = {"author":"Theodore Roosevelt",
-                     "title":"Letter to yellow journalsts during the Rough Riders campaign."};
+    var metadata2 = {"author":"Michael Jordan",
+                     "title":"Letter to yellow journalsts during the Rough Riders campaign for the NBA finals in 1994.",
+                     "img":"http://nbalegend.net/wp-content/uploads/2011/10/michael-jordan-slam-dunk--poster.jpg"};
     var item2 = new Item(2,metadata2);
     var metadata3 = {"author":"Michael Jordan",
                      "title":"Letter to Dennis Rodman and Scottie Pippen about John Muir's ridiculous defense",
                      "img":"http://www.exclusivecribs.com/celebrities/michael-jordan/thumbnail/michael_jordan.jpg"};
     var item3 = new Item(3,metadata3);
-    var metadata4 = {"author":"John Muir",
-                     "title":"Letter to Michael Jordan about TR's sick dunking skills",
+    var metadata4 = {"author":"Michael Jordan",
+                     "title":"Letter to John Muir about TR's sick dunking skills",
                      "img":"http://media-3.web.britannica.com/eb-media//02/119402-050-274FAD64.jpg"};
     var item4 = new Item(4,metadata4);
-    var metadata5 = {"author":"Michael Jackson",
-                     "title":"CHAMON-AAH!"};
+    var metadata5 = {"author":"Michael Jordan",
+                     "title":"Why the Bobcats won't make the NBA finals",
+                     "img":"http://img.phombo.com/img1/photocombo/37/Charlotte_Bobcats.jpg"};
     var item5 = new Item(5,metadata5);
     this.item_list = [item1,item2, item3, item4, item5];
 
