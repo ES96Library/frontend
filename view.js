@@ -56,9 +56,18 @@ View.prototype.draw_grid = function(item_list){
     		img = this.default_image;
     		};
     		
-    	html += '<li class="span'+ this.gridcolumns + '"><div class="thumbnail"><img src="' + img + '" alt=""><h5>'
-    	html += item_list[i].metadata['title'] + '</h5><p>'
-    	html += item_list[i].metadata['author'] + '</p></div></li>';
+    //	html += '<li class="span'+ this.gridcolumns + '"><div class="thumbnail"><img src="' + img + '" alt=""><h5>'
+    	html += '<a class="thumbnail" data-toggle="modal" href="#myModal'+i+'" >Launch Modal</a></li></div>'
+    	
+    	html+= '<div class="modal hide" id="myModal'+i+'">'
+    	html += '<div class="modal-header">'
+    	html += '<a class="close" data-dismiss="modal">×</a>'
+    	html += '<h3>'+item_list[i].metadata['title'] +'</h3></div>'
+    	html += '<div class="modal-body">'
+    	html += '<p>'+item_list[i].metadata['author']+'</p></div>'
+    	html += '<div class="modal-footer">'
+    	html += '<a href="#" class="btn">Close</a>'
+    	html += '<a href="#" class="btn btn-primary">Save changes</a></div></div>'
 	
     }
     html += '</ul>'
