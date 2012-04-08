@@ -55,14 +55,24 @@ View.prototype.draw_grid = function(item_list){
     	else {
     		img = this.default_image;
     		};
+    	
+    	//check for a thumbnail associated with the item, else add the placeholder image
+    	if(item_list[i].metadata['img']) {
+    		img = item_list[i].metadata['img']}    		
+    	else {
+    		img = this.default_image;
+    		};
     		
     	html += '<div data-toggle="modal" href="#myModal'+i+'" >'
-    	html += '<li class="span'+ this.gridcolumns + '"><div class="thumbnail"><img src="' + img + '" alt=""></div>'+item_list[i].metadata['author']+'-'+item_list[i].metadata['title']+'</li></div>'
+    	html += '<li class="span'+ this.gridcolumns + '"><div class="thumbnail"><img src="' + img + '" alt=""><h6>'+item_list[i].metadata['author']+'</h6>'+item_list[i].metadata['title']+'</div></li></div>'
 
     	
     	html+= '<div class="modal hide" id="myModal'+i+'">'
     	html += '<div class="modal-header">'
     	html += '<a class="close" data-dismiss="modal">×</a>'
+    	
+    	//begin modal content
+    	html += '<img src="' + img + '"></img>'
     	html += '<h3>'+item_list[i].metadata['title'] +'</h3></div>'
     	html += '<div class="modal-body">'
     	html += '<p>'+item_list[i].metadata['author']+'</p></div>'

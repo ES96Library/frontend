@@ -20,7 +20,8 @@ function Model(){
                      "img":"http://www.exclusivecribs.com/celebrities/michael-jordan/thumbnail/michael_jordan.jpg"};
     var item3 = new Item(3,metadata3);
     var metadata4 = {"author":"John Muir",
-                     "title":"Letter to Michael Jordan about TR's sick dunking skills"};
+                     "title":"Letter to Michael Jordan about TR's sick dunking skills",
+                     "img":"http://media-3.web.britannica.com/eb-media//02/119402-050-274FAD64.jpg"};
     var item4 = new Item(4,metadata4);
     var metadata5 = {"author":"Michael Jackson",
                      "title":"CHAMON-AAH!"};
