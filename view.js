@@ -56,8 +56,9 @@ View.prototype.draw_grid = function(item_list){
     		img = this.default_image;
     		};
     		
-    //	html += '<li class="span'+ this.gridcolumns + '"><div class="thumbnail"><img src="' + img + '" alt=""><h5>'
-    	html += '<a class="thumbnail" data-toggle="modal" href="#myModal'+i+'" >Launch Modal</a></li></div>'
+    	html += '<a data-toggle="modal" href="#myModal'+i+'" >'
+    	html += '<li class="span'+ this.gridcolumns + '"><div class="thumbnail"><img src="' + img + '" alt=""></div></li></a>'
+
     	
     	html+= '<div class="modal hide" id="myModal'+i+'">'
     	html += '<div class="modal-header">'
