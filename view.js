@@ -24,11 +24,11 @@ View.prototype.draw_filters = function(filters){
     	
     	html+='</ul><ul class="nav nav-list">';
     	
-    for (var index in suggested) {
-    	html += '<li class="nav-header">' + index + '</li>';
+    for (var k in suggested) {
+    	html += '<li class="nav-header">' + k + '</li>';
     	
-    	for(var n in suggested[index]) {
-    	html += '<li><a href="#">' + suggested[index][n] + '</a></li>';
+    	for(var v in suggested[k]) {
+    	html += '<li><a href="#">' + v + ' (' + suggested[k][v] + ')</a></li>';
     	}
     }
     html += '</ul>';

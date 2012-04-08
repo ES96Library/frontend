@@ -7,10 +7,6 @@ function Item(id, metadata){
 function Model(){
     //This object has a list of Items
 
-}
-Model.prototype.get_items = function() {
-    //returns the list of items (one liner)
-    //dummy list...
     var metadata1 = {"author":"Thomas Edison",
                      "title":"Invention of the Lightbulb: a bunch of long words that are going to take up space and make us think about how to deal with long titles when writing the view",
                      "type":"Manuscript",
@@ -29,14 +25,43 @@ Model.prototype.get_items = function() {
     var metadata5 = {"author":"Michael Jackson",
                      "title":"CHAMON-AAH!"};
     var item5 = new Item(5,metadata5);
-    return [item1,item2, item3, item4, item5];
+    this.item_list = [item1,item2, item3, item4, item5];
+
+    this.current = [["author","Michael Jordan"]];
+}
+Model.prototype.get_items = function() {
+    //returns the list of items (one liner)
+    //dummy list...
+
+    return this.item_list;
 }
 Model.prototype.get_filters = function(){
     //returns filters in the format
-    //{ "current": key1:[value1,value2], key2:[value3,value4], 
-    //  "suggested": key3:[value5,value6], key2:[value7,value8] }
+    //{ "current": [["key1","value1"],["key2","value2"]]
+    //  "suggested": key3:{value5:11,value6:1}, key2:{value7:9,value8:3} }
 
-    return { "current": [["Collection","World's Greatest Library Special Collection"],["Author","Thomas Edison"],["Author","Michael Jordan"]], "suggested": {"Author":["Theodore Roosevelt","John Muir","Susan B. Anthony","Herbert Hoover"], "Location":["Los Angeles","Abu Dhabi","Chicago"], "Type":["Letter","Book","Dunk Footage"] }};
+    var suggested = {};
+    for (var i in this.item_list){
+        var itm = this.item_list[i];
+        for (var k in itm.metadata){
+            var v = itm.metadata[k];
+            if (k in suggested){
+                if (v in suggested[k])
+                    suggested[k][v] += 1;
+                else
+                    suggested[k][v] = 1;
+            }
+            else{
+                suggested[k] = {};
+                suggested[k][v] = 1;
+            }
+        }
+    }
+
+    console.log({"current":this.current, "suggested":suggested});
+    return {"current":this.current, "suggested":suggested};
+//    return { "current": [["Collection","World's Greatest Library Special Collection"],["Author","Thomas Edison"],["Author","Michael Jordan"]], "suggested": {"Author":["Theodore Roosevelt","John Muir","Susan B. Anthony","Herbert Hoover"], "Location":["Los Angeles","Abu Dhabi","Chicago"], "Type":["Letter","Book","Dunk Footage"] }};
+
 }
 Model.prototype.update = function(items){
     //replaces the current item list with the one supplied here
