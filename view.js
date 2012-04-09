@@ -66,8 +66,7 @@ View.prototype.draw_grid = function(item_list){
     	html += '<a class="close" data-dismiss="modal">×</a>'
     	
     	//begin modal content
-    	html += '<img src="' + img + '"id=myimg'+i+' style="max-width:800px;max-height:400px;"></img>'
-    	html += '<h3>'+item_list[i].metadata['title'] +'</h3></div>'
+    	html += '<img src="' + img + '"id=myimg'+i+' style="max-width:800px;max-height:400px;"></img></div>'
     	html += '<div class="modal-body">'
     	
     	// loop through metadata, adding all available information
