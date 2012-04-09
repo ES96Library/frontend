@@ -74,10 +74,10 @@ View.prototype.draw_grid = function(item_list){
     		html += '<h5>'+ index +'</h5><p>'+item_list[i].metadata[index]+'</p>'
     	}
     	
-    	html += '<h5>Author</h5><p>'+item_list[i].metadata['author']+'</p>'
-    	html += '<h5>Year</h5><p>'+item_list[i].metadata['year']+'</p>'
-    	html += '<h5>Format</h5><p>'+item_list[i].metadata['type']+'</p>'
-    	html += '<h5>Desription</h5><p>'+item_list[i].metadata['description']+'</p>'
+    	//html += '<h5>Author</h5><p>'+item_list[i].metadata['author']+'</p>'
+    	//html += '<h5>Year</h5><p>'+item_list[i].metadata['year']+'</p>'
+    	//html += '<h5>Format</h5><p>'+item_list[i].metadata['type']+'</p>'
+    	//html += '<h5>Desription</h5><p>'+item_list[i].metadata['description']+'</p>'
     	html += '</div>'
     	html += '<div class="modal-footer">'
     	html += '<a href="#" class="btn">Close</a>'
