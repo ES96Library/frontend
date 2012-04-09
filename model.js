@@ -98,16 +98,19 @@ Model.prototype.get_filters = function(){
     for (var i in this.item_list){
         var itm = this.item_list[i];
         for (var k in itm.metadata){
-            var v = itm.metadata[k];
-            if (k in suggested){
-                if (v in suggested[k])
-                    suggested[k][v] += 1;
-                else
+            for (vindex in itm.metadata[k]){
+                var v = itm.metadata[k][vindex];
+                console.log([k,v,itm.metadata[k]]);
+                if (k in suggested){
+                    if (v in suggested[k])
+                        suggested[k][v] += 1;
+                    else
+                        suggested[k][v] = 1;
+                }
+                else{
+                    suggested[k] = {};
                     suggested[k][v] = 1;
-            }
-            else{
-                suggested[k] = {};
-                suggested[k][v] = 1;
+                }
             }
         }
     }
