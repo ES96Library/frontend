@@ -12,7 +12,22 @@ v.draw_grid(m.get_items());
 
 //Bind all our UI buttons...
 //When you click the x button on a current filter, it calls m.search()
+$('#facets .close').click(function(){
+    var to_remove = $(this).attr('facet');
+    console.log("removed facet " + to_remove);
+    var nextsearch = $.extend(true, [], m.current);
+    nextsearch.splice(to_remove, 1);
+    m.search(nextsearch);
+});
 //When you click on a suggested filter, it calls m.search() 
+$('#facets li a').click(function(){
+    var newkey = $(this).attr('facetkey');
+    var newval = $(this).attr('facetval');
+    console.log("added facet " + newkey + " : " + newval);
+    var nextsearch = $.extend(true, [], m.current);
+    nextsearch.push([newkey,newval]);
+    m.search(nextsearch);
+});
 
 //When you click on an item in the results pane, show the edit modal for that item
 

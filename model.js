@@ -134,6 +134,7 @@ Model.prototype.update = function(items){
 Model.prototype.search = function(facets){
     //Takes an set of key-value pairs and sends an AJAX request
     //The callback for the AJAX call should probably be update
+    alert("New Search! Facets:" + JSON.stringify(facets));
 }
 Model.prototype.edit = function(item){
     //takes an item object and sends an AJAX edit request

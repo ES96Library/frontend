@@ -19,7 +19,7 @@ View.prototype.draw_filters = function(filters){
     
     
 	for (var index in current) {
-    	html += '<div class="alert alert-info"><a class="close">x</a><strong>' + current[index][0] + ':</strong> ' + current[index][1] + '</div>';
+    	html += '<div class="alert alert-info"><a class="close" facet="' + index + '">x</a><strong>' + current[index][0] + ':</strong> ' + current[index][1] + '</div>';
     }
     	
     	html+='</ul><ul class="nav nav-list">';
@@ -28,7 +28,7 @@ View.prototype.draw_filters = function(filters){
     	html += '<li class="nav-header">' + k + '</li>';
     	
     	for(var v in suggested[k]) {
-    	html += '<li><a href="#">' + v + ' (' + suggested[k][v] + ')</a></li>';
+    	html += '<li><a href="#" facetkey="'+k+'" facetval="'+v+'">' + v + ' (' + suggested[k][v] + ')</a></li>';
     	}
     }
     html += '</ul>';
