@@ -69,6 +69,11 @@ View.prototype.draw_grid = function(item_list){
     	html += '<img src="' + img + '"id=myimg'+i+' style="max-width:800px;max-height:400px;"></img>'
     	html += '<h3>'+item_list[i].metadata['title'] +'</h3></div>'
     	html += '<div class="modal-body">'
+    	
+    	// loop through metadata, adding all available information
+    	for (var index in item_list[i].metadata){
+    		html += '<h5>'+ index +'</h5><p>'+item_list[i].metadata[index]+'</p>'
+    	}
     	html += '<h5>Author</h5><p>'+item_list[i].metadata['author']+'</p>'
     	html += '<h5>Year</h5><p>'+item_list[i].metadata['year']+'</p>'
     	html += '<h5>Format</h5><p>'+item_list[i].metadata['type']+'</p>'
