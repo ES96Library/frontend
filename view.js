@@ -61,7 +61,7 @@ View.prototype.draw_grid = function(item_list){
     	html += '<li class="span'+ this.gridcolumns + '"><div class="thumbnail"><img src="' + img + '" alt=""><h6>'+item_list[i].metadata['author']+'</h6>'+item_list[i].metadata['title']+'</div></li></div>'
 
     	
-    	html+= '<div class="modal hide" id="myModal'+i+'" style="width:700px;margin-left=-350px">'
+    	html+= '<div class="modal hide fade" id="myModal'+i+'" style="width:700px;margin-left=-350px">'
     	html += '<div class="modal-header">'
     	html += '<a class="close" data-dismiss="modal">×</a>'
     	
