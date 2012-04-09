@@ -74,6 +74,7 @@ View.prototype.draw_grid = function(item_list){
     	for (var index in item_list[i].metadata){
     		html += '<h5>'+ index +'</h5><p>'+item_list[i].metadata[index]+'</p>'
     	}
+    	
     	html += '<h5>Author</h5><p>'+item_list[i].metadata['author']+'</p>'
     	html += '<h5>Year</h5><p>'+item_list[i].metadata['year']+'</p>'
     	html += '<h5>Format</h5><p>'+item_list[i].metadata['type']+'</p>'

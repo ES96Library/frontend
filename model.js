@@ -55,7 +55,32 @@ function Model(){
                      "img":"http://www.ebengregory.com/wp-content/uploads/2011/09/IFWT-Michael-Jordan111.jpg",
                      "topic":"basketball"};
     var item6 = new Item(6,metadata6);
-    this.item_list = [item1,item2, item3, item4, item5, item6];
+    var metadata7 = {"author":"Michael Jordan",
+                     "type":"Audio clip",
+                     "title":"Coaching the Bobcats",
+                     "year":"2011",
+                     "description":"I should just play instead of this entire team, seriously.",
+                     "img":"http://farm4.static.flickr.com/3342/4555131653_d2ec158101.jpg",
+                     "topic":"basketball"};
+    var item7 = new Item(7,metadata7);
+    var metadata8 = {"author":"Michael Jordan",
+                     "type":"Manuscript",
+                     "title":"How I made baggy shorts popular",
+                     "year":"2011",
+                     "description":"I wore huge shorts so I could wear my UNC shorts under them. For every game of my NBA career. Seriously.",
+                     "img":"http://static6.businessinsider.com/image/4d6d317ccadcbb193d020000-400-300/28-michael-jordan-would-always-wear-his-unc-shorts-under-his-nba-shorts.jpg",
+                     "topic":"basketball"};
+    var item8 = new Item(8,metadata8);
+    var metadata9 = {"author":"Michael Jordan",
+                     "type":"Interview",
+                     "title":"I always wanted to be a baseball player.",
+                     "year":"2001",
+                     "description":"My dad wanted that for me, too.",
+                     "img":"http://i.cdn.turner.com/si/multimedia/photo_gallery/0904/nba.michael.jordan.playing.baseball/images/michael-jordan-barons-dugout.jpg",
+                     "topic":"basketball",
+                     "topic":"baseball"};
+    var item9 = new Item(9,metadata9);
+    this.item_list = [item1,item2, item3, item4, item5, item6, item7, item8, item9];
 
     this.current = [["author","Michael Jordan"],["topic","Basketball"]];
 }
