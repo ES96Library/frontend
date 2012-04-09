@@ -41,12 +41,6 @@ View.prototype.draw_grid = function(item_list){
     var html = '<ul class="thumbnails">';
     var metadata = '';
     
-    //var html = '<li class="span'+ this.gridcolumns + '"><div class="thumbnail"><img src="http://placehold.it/260x180" alt=""><h5>Thumbnail label</h5><p>Thumbnail caption right here...</p></div></li>';
-	//html += '<li class="span'+ this.gridcolumns + '"><div class="thumbnail"><img src="http://placehold.it/260x180" alt=""><h5>Thumbnail label</h5><p>Thumbnail caption right here...</p></div></li>';
-	//html += '<li class="span'+ this.gridcolumns + '"><div class="thumbnail"><img src="http://placehold.it/260x180" alt=""><h5>Thumbnail label</h5><p>Thumbnail caption right here...</p></div></li>';
-   	//html += '<li class="span'+ this.gridcolumns + '"><div class="thumbnail"><img src="http://placehold.it/260x180" alt=""><h5>Thumbnail label</h5><p>Thumbnail caption right here...</p></div></li>';
-   
-    
     for (var i = 0; i<item_list.length; i++) {
     	
     	//check for an image associated with the item, else add the placeholder image
