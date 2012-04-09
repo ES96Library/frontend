@@ -75,28 +75,27 @@ Model.prototype.get_filters = function(){
         var itm = this.item_list[i];
         for (var k in itm.metadata){
             var v = itm.metadata[k];
-            if (!($.inArray([k,v],this.current))){
-                if (k in suggested){
-                    if (v in suggested[k])
-                        suggested[k][v] += 1;
-                    else
-                        suggested[k][v] = 1;
-                }
-                else{
-                    suggested[k] = {};
+            if (k in suggested){
+                if (v in suggested[k])
+                    suggested[k][v] += 1;
+                else
                     suggested[k][v] = 1;
-                }
+            }
+            else{
+                suggested[k] = {};
+                suggested[k][v] = 1;
             }
         }
     }
 
+    console.log(suggested);
     for (var k in suggested){
         var max = 0;
         for (var v in suggested[k]){
             if (suggested[k][v] > max)
                 max = suggested[k][v];
         }
-        if (max <= 1)
+        if (max <= 1 || Object.keys(suggested[k]).length <= 1)
             delete suggested[k];
     }
 
