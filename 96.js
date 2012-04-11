@@ -30,6 +30,30 @@ $('#facets li a').click(function(){
 });
 
 //When you click on an item in the results pane, show the edit modal for that item
+console.log($('#results [item]'));
+$('#results [item]').click(function(){
+    var i = $(this).attr('item');
+    var item_list = m.get_items();
+    var itm = item_list[i];
+    html = "";
+    html+= '<div style="width:700px;background-color:#fff;">'
+    html += '<div class="modal-header">'
+
+    //begin modal content
+    html += '<img src="' + itm.metadata.img + '"id=myimg'+i+' style="max-width:800px;max-height:400px;"></img></div>'
+    html += '<div class="modal-body">'
+
+    // loop through metadata, adding all available information
+    for (var index in itm.metadata){
+        html += '<h5>'+ index +'</h5><p>'+itm.metadata[index]+'</p>'
+    }
+
+html += '</div>'
+    html += '<div class="modal-footer">'
+    html += '<a href="#" class="btn">Close</a>'
+    html += '<a href="#" class="btn btn-primary">Save changes</a></div></div>'
+    $.colorbox({html:html});
+});
 
 //When you click the submit button in the edit modal, it calls m.edit on that item
 //May have to grab and update corresponding item from item list

@@ -57,10 +57,10 @@ View.prototype.draw_grid = function(item_list){
     		img = this.default_image;
     		};
     		
-    	html += '<div data-toggle="modal" href="#myModal'+i+'" >'
+    	html += '<div data-toggle="modal" item="'+i+'" >'
     	html += '<li class="span'+ this.gridcolumns + '"><div class="thumbnail"><img src="' + img + '" alt=""><h6>'+item_list[i].metadata['author']+'</h6>'+item_list[i].metadata['title']+'</div></li></div>'
 
-    	
+    /*	
     	html+= '<div class="modal hide fade" id="myModal'+i+'" style="width:700px;margin-left=-350px">'
     	html += '<div class="modal-header">'
     	html += '<a class="close" data-dismiss="modal">×</a>'
@@ -74,15 +74,11 @@ View.prototype.draw_grid = function(item_list){
     		html += '<h5>'+ index +'</h5><p>'+item_list[i].metadata[index]+'</p>'
     	}
     	
-    	//html += '<h5>Author</h5><p>'+item_list[i].metadata['author']+'</p>'
-    	//html += '<h5>Year</h5><p>'+item_list[i].metadata['year']+'</p>'
-    	//html += '<h5>Format</h5><p>'+item_list[i].metadata['type']+'</p>'
-    	//html += '<h5>Desription</h5><p>'+item_list[i].metadata['description']+'</p>'
     	html += '</div>'
     	html += '<div class="modal-footer">'
     	html += '<a href="#" class="btn">Close</a>'
     	html += '<a href="#" class="btn btn-primary">Save changes</a></div></div>'
-
+*/
 	
     }
     html += '</ul>'
