@@ -36,19 +36,23 @@ $('#results [item]').click(function(){
     var item_list = m.get_items();
     var itm = item_list[i];
     html = "";
-    html+= '<div style="width:700px;background-color:#fff;">'
-    html += '<div class="modal-header">'
-
-    //begin modal content
-    html += '<img src="' + itm.metadata.img + '"id=myimg'+i+' style="max-width:800px;max-height:400px;"></img></div>'
+    html+= '<div style="width:1000px;background-color:#fff;">'
     html += '<div class="modal-body">'
 
+    //begin modal content
+    
+    //display image on the left
+    html += '<div class="span9" id="image">'
+    html += '<img src="' + itm.metadata.img + '"id=myimg'+i+' style="max-width:800px;max-height:400px;"></img></div>'
+
+	//display metadata on the right
+	html += '<div class="span3" id="metadata">'
     // loop through metadata, adding all available information
     for (var index in itm.metadata){
         html += '<h5>'+ index +'</h5><p>'+itm.metadata[index]+'</p>'
     }
 
-html += '</div>'
+	html += '</div></div>'
     html += '<div class="modal-footer">'
     html += '<a href="#" class="btn">Close</a>'
     html += '<a href="#" class="btn btn-primary">Save changes</a></div></div>'

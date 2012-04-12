@@ -49,13 +49,7 @@ View.prototype.draw_grid = function(item_list){
     	else {
     		img = this.default_image;
     		};
-    	
-    	//check for a thumbnail associated with the item, else add the placeholder image
-    	if(item_list[i].metadata['img']) {
-    		img = item_list[i].metadata['img']}    		
-    	else {
-    		img = this.default_image;
-    		};
+
     		
     	html += '<div data-toggle="modal" item="'+i+'" >'
     	html += '<li class="span'+ this.gridcolumns + '"><div class="thumbnail"><img src="' + img + '" alt=""><h6>'+item_list[i].metadata['author']+'</h6>'+item_list[i].metadata['title']+'</div></li></div>'
