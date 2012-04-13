@@ -46,13 +46,16 @@ $('#results [item]').click(function(){
     html += '<img src="' + itm.metadata.img + '"id=myimg'+i+' style="max-width:700px;max-height:400px;"></img></div>'
 
 	//display metadata on the right
-	html += '<div class="span3" id="metadata">'
+	html += '<div class="span4" id="metadata">'
+	//metadata inside a form to allow updating
+	html += '<form name="update" action="index.html" method="post">'
     // loop through metadata, adding all available information
     for (var index in itm.metadata){
-        html += '<h5>'+ index +'</h5><p>'+itm.metadata[index]+'</p>'
+        html += '<h5>'+ index +'</h5><input type="text" name="'+index+'" value="'+itm.metadata[index]+'"/>'
+
     }
 
-	html += '</div></div>'
+	html += '</form></div></div>'
     html += '<div class="modal-footer">'
     html += '<a href="#" class="btn">Close</a>'
     html += '<a href="#" class="btn btn-primary">Save changes</a></div></div>'
