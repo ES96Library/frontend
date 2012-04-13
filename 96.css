@@ -1,3 +1,10 @@
 body{
   padding-top:2em;
 }
+
+a.metadataform{
+  width:500px;
+  border:none;
+  border-color:transparent;
+  outline: none;
+}

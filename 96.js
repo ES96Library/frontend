@@ -30,13 +30,12 @@ $('#facets li a').click(function(){
 });
 
 //When you click on an item in the results pane, show the edit modal for that item
-console.log($('#results [item]'));
 $('#results [item]').click(function(){
     var i = $(this).attr('item');
     var item_list = m.get_items();
     var itm = item_list[i];
     html = "";
-    html+= '<div style="width:1200px;background-color:#fff;">'
+    html+= '<div style="width:1200px; height:'+$($(window).height())+'px;background-color:#fff;">'
     html += '<div class="modal-body">'
 
     //begin modal content
@@ -48,17 +47,16 @@ $('#results [item]').click(function(){
 	//display metadata on the right
 	html += '<div class="span4" id="metadata">'
 	//metadata inside a form to allow updating
-	html += '<form name="update" action="index.html" method="post">'
+	html += '<form name="update" action="google.com" method="post">'
     // loop through metadata, adding all available information
     for (var index in itm.metadata){
-        html += '<h5>'+ index +'</h5><input type="text" name="'+index+'" value="'+itm.metadata[index]+'"/>'
-
-    }
+        html += '<h5>'+ index +'</h5><input type="text" class="metadataform" name="'+index+'" value="'+itm.metadata[index]+'"/>'
+	}
 
 	html += '</form></div></div>'
     html += '<div class="modal-footer">'
     html += '<a href="#" class="btn">Close</a>'
-    html += '<a href="#" class="btn btn-primary">Save changes</a></div></div>'
+    html += '<a href="#" class="btn btn-primary" type="Submit">Save changes</a></div></div>'
     $.colorbox({html:html});
 });
 
