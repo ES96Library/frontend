@@ -36,14 +36,14 @@ $('#results [item]').click(function(){
     var item_list = m.get_items();
     var itm = item_list[i];
     html = "";
-    html+= '<div style="width:1000px;background-color:#fff;">'
+    html+= '<div style="width:1200px;background-color:#fff;">'
     html += '<div class="modal-body">'
 
     //begin modal content
     
     //display image on the left
     html += '<div class="span9" id="image">'
-    html += '<img src="' + itm.metadata.img + '"id=myimg'+i+' style="max-width:800px;max-height:400px;"></img></div>'
+    html += '<img src="' + itm.metadata.img + '"id=myimg'+i+' style="max-width:700px;max-height:400px;"></img></div>'
 
 	//display metadata on the right
 	html += '<div class="span3" id="metadata">'
