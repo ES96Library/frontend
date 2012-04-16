@@ -114,7 +114,7 @@ Model.prototype.get_filters = function(){
         }
     }
 
-    console.log(suggested);
+    //console.log(suggested);
     for (var k in suggested){
         var max = 0;
         for (var v in suggested[k]){
@@ -125,7 +125,7 @@ Model.prototype.get_filters = function(){
             delete suggested[k];
     }
 
-    console.log({"current":this.current, "suggested":suggested});
+    //console.log({"current":this.current, "suggested":suggested});
     return {"current":this.current, "suggested":suggested};
 //    return { "current": [["Collection","World's Greatest Library Special Collection"],["Author","Thomas Edison"],["Author","Michael Jordan"]], "suggested": {"Author":["Theodore Roosevelt","John Muir","Susan B. Anthony","Herbert Hoover"], "Location":["Los Angeles","Abu Dhabi","Chicago"], "Type":["Letter","Book","Dunk Footage"] }};
 

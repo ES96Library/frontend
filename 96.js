@@ -35,23 +35,41 @@ $('#results [item]').click(function(){
     var item_list = m.get_items();
     var itm = item_list[i];
     html = "";
-    html+= '<div style="width:1200px; height:'+$($(window).height())+'px;background-color:#fff;">'
-    html += '<div class="modal-body">'
+    html+= '<div style="width:1200px; height:1200px;background-color:#fff;">'
+    html += '<div class="modal-body" style="height:1100px;">'
+
+	    //check for an image associated with the item, else add the placeholder image
+    	if(item_list[i].metadata['img']) {
+    		img = item_list[i].metadata['img']}    		
+    	else{
+    		img = this.default_image;
+    		};
 
     //begin modal content
     
     //display image on the left
     html += '<div class="span9" id="image">'
-    html += '<img src="' + itm.metadata.img + '"id=myimg'+i+' style="max-width:700px;max-height:400px;"></img></div>'
+    html += '<img src="' + itm.metadata.img + '"id=myimg'+i+' style="max-width:700px;max-height:1100px;"></img></div>'
 
 	//display metadata on the right
-	html += '<div class="span4" id="metadata">'
+	html += '<div class="span3" id="metadata">'
 	//metadata inside a form to allow updating
 	html += '<form name="update" action="google.com" method="post">'
     // loop through metadata, adding all available information
     for (var index in itm.metadata){
-        html += '<h5>'+ index +'</h5><input type="text" class="metadataform" name="'+index+'" value="'+itm.metadata[index]+'"/>'
+    	
+    	//determine the size box needed to display this piece of metadata
+    	//if(itm.metadata[index].length > 1){
+    	//	console.log('hi');
+    	//}
+
+    	
+    	
+        html += '<h5>'+ index +'</h5><textarea class="metadataform" name="'+index+'" rows="2" cols="80" style="  border:none;border-color:transparent;outline:none;">'+itm.metadata[index]+'</textarea>'
+        //<input type="text" class="metadataform" name="'+index+'" value="'+itm.metadata[index]+'"/>'
 	}
+
+
 
 	html += '</form></div></div>'
     html += '<div class="modal-footer">'

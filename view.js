@@ -2,7 +2,8 @@ function View(m){
     //This object draws stuff in HTML
     //View settings go here (i.e. how many things per row, etc)
 	this.gridcolumns = 3;//determines size of thumbnails, also determining number of thumbnails displayed per row
-	this.default_image = 'http://placehold.it/260x180'//define the default placeholder image
+	this.default_image = 'http://freepages.genealogy.rootsweb.com/~jganis/CabarrusCo/Odell.jpg' //define the default placeholder image
+	//'http://www.tullglazener.com/Old%20Rugged%20Cross/Old%20Rugged%20Cross%20-%20harmony.jpg'
 }
 View.prototype.clear_filters = function(){
     //put loading graphic in filters pane
