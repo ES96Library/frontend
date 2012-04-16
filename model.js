@@ -1,7 +1,8 @@
-function Item(id, images, thumb, metadata){
+function Item(id, image, preview, thumb, metadata){
     //This object has all the metadata for one item
     this.id = id;
-    this.images = [];
+    this.image = image;
+    this.preview = preview;
     this.thumb = thumb;
     this.metadata = metadata;
 }
@@ -83,7 +84,7 @@ Model.prototype.update = function(json){
             else
                 new_metadata[k] = [v];
         }
-        var new_item = new Item(item_json[0],[],item_json[1].thumb,new_metadata);
+        var new_item = new Item(item_json[0],item_json[1].thumb,item_json[1].preview,item_json[1].thumb,new_metadata);
         out.push(new_item);
     }
 
