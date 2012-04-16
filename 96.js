@@ -1,6 +1,19 @@
 
 //If there's a search string in the url, set loading graphics, populate model with that search string and then draw 
 
+new_search = function(kv_array){
+    var search_json = m.search(kv_array);
+    $.ajax({
+        type: 'POST',
+        url:'http://hollre.com/items/search.json',
+        dataType:"json",
+        data: search_json,
+        context:m,
+        success:update_page,
+    });
+    m.current = kv_array;
+};
+
 bind_ui = function(){
     //Bind all our UI buttons...
     //When you click the x button on a current filter, it calls m.search()
@@ -9,7 +22,7 @@ bind_ui = function(){
         console.log("removed facet " + to_remove);
         var nextsearch = $.extend(true, [], m.current);
         nextsearch.splice(to_remove, 1);
-        m.search(nextsearch);
+        new_search(nextsearch);
     });
     //When you click on a suggested filter, it calls m.search() 
     $('#facets li a').click(function(){
@@ -18,7 +31,7 @@ bind_ui = function(){
         console.log("added facet " + newkey + " : " + newval);
         var nextsearch = $.extend(true, [], m.current);
         nextsearch.push([newkey,newval]);
-        m.search(nextsearch);
+        new_search(nextsearch);
     });
 
     //When you click on an item in the results pane, show the edit modal for that item
@@ -85,15 +98,21 @@ update_page = function(data){
     v.draw_grid(m.get_items());
     bind_ui();
 };
-
+init_with_everything = function(){
+    $.ajax({
+        url:'http://hollre.com/items.json',
+        dataType:"json",
+        context:m,
+        success:update_page,
+    });
+};
 m = new Model();
 v = new View();
 
-//$('.container').append(JSON.stringify(m.get_items()));
-//$('.container').append(JSON.stringify(m.get_filters()));
 $.ajax({
-    url:'http://hollre.com:3000/items.json',
+    url:'http://hollre.com/properties.json',
     dataType:"json",
     context:m,
-    success:update_page,
+    success:m.update_properties,
 });
+init_with_everything();

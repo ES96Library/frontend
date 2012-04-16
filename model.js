@@ -11,6 +11,7 @@ function Model(){
 
     this.item_list = [];
     this.current = [];
+    this.property_dict = {};
 
 
 }
@@ -31,6 +32,7 @@ Model.prototype.get_filters = function(){
         for (var k in itm.metadata){
             for (vindex in itm.metadata[k]){
                 var v = itm.metadata[k][vindex];
+                if ($.inArray([k,v],this.current) == -1){
                 if (k in suggested){
                     if (v in suggested[k])
                         suggested[k][v] += 1;
@@ -40,6 +42,7 @@ Model.prototype.get_filters = function(){
                 else{
                     suggested[k] = {};
                     suggested[k][v] = 1;
+                }
                 }
             }
         }
@@ -73,7 +76,6 @@ Model.prototype.update = function(json){
         var new_metadata = {};
         for (var j in item_json[1].properties){
             var metadata_json = item_json[1].properties[j];
-            console.log(metadata_json);
             var k = metadata_json[0];
             var v = metadata_json[1][0].name;
             if (k in new_metadata)
@@ -85,13 +87,34 @@ Model.prototype.update = function(json){
         out.push(new_item);
     }
 
-    console.log(out);
     this.item_list = out;
+}
+Model.prototype.update_properties = function(json){
+    var out = {};
+
+    for (var i in json){
+        out[json[i].name] = json[i].id;
+    }
+
+    this.property_dict = out;
 }
 Model.prototype.search = function(facets){
     //Takes an set of key-value pairs and sends an AJAX request
     //The callback for the AJAX call should probably be update
-    alert("New Search! Facets:" + JSON.stringify(facets));
+    console.log(facets);
+    out = {};
+    for (var i in facets){
+        var facet = facets[i];
+        out = {"pair[][property_id]":this.property_dict[facet[0]],"pair[][value]":facet[1]};
+    }
+    return out;
+    /*
+    out = {"pair":[]};
+    for (var i in facets){
+        var facet = facets[i];
+        out.pair.push({"property_id":this.property_dict[facet[0]],"value":facet[1]});
+    }
+    */
 
 }
 Model.prototype.edit = function(item){
