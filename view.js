@@ -81,6 +81,7 @@ View.prototype.draw_grid = function(item_list){
     }
     html += '</ul>'
         $('#results').html(html);
+	document.getElementById('loading').style.display = 'none';
 }
 View.prototype.draw_list = function(item_list){
     //uses return of m.get_items()
