@@ -48,15 +48,13 @@ View.prototype.draw_grid = function(item_list){
     var counter = 0;
 
     for (var i = 0; i<item_list.length; i++) {
-		console.log(counter);
         //check for an image associated with the item, else add the placeholder image
         if(item_list[i].thumb) {
             img = item_list[i].thumb}    		
         else {
             img = this.default_image;
         };
-
-		
+    	
 		
 		//put each row in a grid to keep heights consistant
 		//start a new row only when the previous row is full

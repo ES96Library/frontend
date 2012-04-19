@@ -39,8 +39,8 @@ bind_ui = function(){
         var i = $(this).attr('item');
         var item_list = m.get_items();
         var itm = item_list[i];
-        html = "";
-        html+= '<div style="background-color:#fff;width:100%;height:100%;">'
+        var html = "";
+        html += '<div style="background-color:#fff;width:100%;height:100%;">'
 
         //check for an image associated with the item, else add the placeholder image
         if(item_list[i].preview) {
