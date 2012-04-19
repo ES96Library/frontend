@@ -75,59 +75,89 @@ bind_ui = function(){
     //If you're in the list view, when you click the grid tab, switch
 }
 show_edit_modal = function(){
-    var i = $(this).attr('item');
-    var item_list = m.get_items();
-    var itm = item_list[i];
-    console.log(itm);
-    var html = "";
-    html += '<div style="background-color:#fff;width:100%;height:100%;">'
+			
+		
+	var i = $(this).attr('item');
+	var item_list = m.get_items();
+	var itm = item_list[i];
+	console.log(itm);
+	var html = "";
+	html += '<div style="background-color:#fff;width:100%;height:100%;">'
 
-        //check for an image associated with the item, else add the placeholder image
-        if(item_list[i].preview) {
-            img = item_list[i].preview;
-        } else{
-            img = this.default_image;
-        };
+		//check for an image associated with the item, else add the placeholder image
+		if(item_list[i].preview) {
+			img = item_list[i].preview;
+		} else{
+			img = this.default_image;
+		};
 
-    //begin modal content
+	
+	var image1 = new Image();
+	image1.onload = function() {
+	
+		//determine appropriate height and width for the modal
+		var maxheight = $(window).height();
+		var maxwidth = $(window).width();
+	
+		maxheight = Math.floor(.85*maxheight);
+		maxwidth = Math.floor(.7*maxwidth);
+		
+		var width = maxwidth;
+		var height = maxheight;
 
-    //display image on the left
-    html += '<div class="" id="image" style="height:985px;width:640px;float:left;">';
-    html += '<img src="' + img + '"id=myimg'+i+' style=""></img></div>';
+		if(this.width > maxwidth){
+			width = maxwidth;}
+		else {
+			width = this.width;
+		}
+		
+		if(this.height > maxheight){
+			height = maxheight;}
+		else {
+			height = this.height;
+		}
 
-    //display metadata on the right
-    html += '<div class="span3" id="metadata">';
-    //metadata inside a form to allow updating
-    html += '<form name="update" action="google.com" method="post">';
-    // loop through metadata, adding all available information
-    for (var index in itm.metadata){
-
-        //determine the size box needed to display this piece of metadata
-        //if(itm.metadata[index].length > 1){
-        //	console.log('hi');
-        //}
-
-
-
-        html += '<h5>'+ index +'</h5><textarea class="metadataform" name="'+index+'" rows="2" cols="80" style="  border:none;border-color:transparent;outline:none;">'+itm.metadata[index]+'</textarea>';
-        //html += '<h5>' + index +'</h5><input type="text" class="metadataform" name="'+index+'" value="'+itm.metadata[index]+'"/>'
+	
+		//begin modal content
+	
+		//display image on the left
+		html += '<div class="" id="image" style="height:'+height+'px;width:'+width+'px;float:left;">';
+		html += '<img src="' + img + '"id=myimg'+i+' style=""></img></div>';
+		
+	
+		
+		
+		//display metadata on the right
+		html += '<div class="span3" id="metadata">';
+		//metadata inside a form to allow updating
+		html += '<form name="update" action="google.com" method="post">';
+		// loop through metadata, adding all available information
+		for (var index in itm.metadata){
+	
+			html += '<h5>'+ index +'</h5><textarea class="metadataform" name="'+index+'" rows="2" cols="80" style="  border:none;border-color:transparent;outline:none;">'+itm.metadata[index]+'</textarea>';
+			
+		}
+	
+	
+	
+		html += '</form></div>';
+		html += '<div class="modal-footer">';
+		//html += '<a href="#" class="btn">Close</a>';
+		html += '<a href="#" class="btn btn-primary" type="Submit">Save changes</a></div></div>';
+		$.colorbox({html:html});
+	
+		
+		$('#colorbox textarea').each(function(){
+			console.log($(this).attr('name'));
+			var name = $(this).attr('name');
+			$(this).typeahead({
+				source:m.autocomplete_dict[name],
+				mode:'multiple'
+			});
+		});
+		
     }
-
-
-
-    html += '</form></div>';
-    html += '<div class="modal-footer">';
-    html += '<a href="#" class="btn">Close</a>';
-    html += '<a href="#" class="btn btn-primary" type="Submit">Save changes</a></div></div>';
-    $.colorbox({html:html});
-    $('#colorbox textarea').each(function(){
-        console.log($(this).attr('name'));
-        var name = $(this).attr('name');
-        $(this).typeahead({
-            source:m.autocomplete_dict[name],
-            mode:'multiple'
-        });
-    });
+	image1.src = img;
 };
 
 
