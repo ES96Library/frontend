@@ -1,6 +1,22 @@
 
 //If there's a search string in the url, set loading graphics, populate model with that search string and then draw 
 
+update_page = function(data){
+    m.update(data);
+    v.draw_filters(m.get_filters());
+    v.draw_grid(m.get_items());
+    bind_ui();
+};
+init_with_everything = function(){
+    $.ajax({
+        url:'http://hollre.com/items.json',
+        dataType:"json",
+        context:m,
+        success:update_page,
+    });
+    m.current = [];
+    console.log('init');
+};
 new_search = function(kv_array){
     var search_json = m.search(kv_array);
     $.ajax({
@@ -22,7 +38,10 @@ bind_ui = function(){
         console.log("removed facet " + to_remove);
         var nextsearch = $.extend(true, [], m.current);
         nextsearch.splice(to_remove, 1);
-        new_search(nextsearch);
+        if (nextsearch.length == 0)
+            init_with_everything();
+        else
+            new_search(nextsearch);
     });
     //When you click on a suggested filter, it calls m.search() 
     $('#facets li a').click(function(){
@@ -91,20 +110,6 @@ bind_ui = function(){
 }
 
 
-update_page = function(data){
-    m.update(data);
-    v.draw_filters(m.get_filters());
-    v.draw_grid(m.get_items());
-    bind_ui();
-};
-init_with_everything = function(){
-    $.ajax({
-        url:'http://hollre.com/items.json',
-        dataType:"json",
-        context:m,
-        success:update_page,
-    });
-};
 m = new Model();
 v = new View();
 
