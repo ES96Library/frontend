@@ -15,7 +15,6 @@ init_with_everything = function(){
         success:update_page,
     });
     m.current = [];
-    console.log('init');
 };
 new_search = function(kv_array){
     var search_json = m.search(kv_array);
@@ -28,6 +27,19 @@ new_search = function(kv_array){
         success:update_page,
     });
     m.current = kv_array;
+};
+submit_edit = function(){
+//    var data = m.edit(itm);
+    var data = {"id":1,"image":"http://s3.amazonaws.com/es96library/images/1/c4fe3da460dd7edd3542b0b2e3919957af9f9bae.jpg?1334771965","thumb":"http://s3.amazonaws.com/es96library/images/1/54b4d7d1d5e9a866b294400697a2752954d68d98.jpg?1334771965","preview":"http://s3.amazonaws.com/es96library/images/1/fbd8471359bd2edd1d190e239bbfc374b2167e47.jpg?1334771965","properties":[["author",[{"id":1,"name":"Thomas Edison"}]],["title",[{"id":2,"name":"The Invention of the Lightbulb: Thomas Edison - With Response by Nicola Tesla"}]],["type",[{"id":3,"name":"Manuscript"}]],["description",[{"id":4,"name":"Detail of the first public demonstration of Thomas Edison's incandescent lighting system in December 1879, at which time the Menlo Park laboratory complex was first electrically lighted. Edit successful."}]]]};
+    var id = data.id;
+    $.ajax({
+        type: 'PUT',
+        url:'http://hollre.com/items/'+id+'.json',
+        dataType:"json",
+        data: data,
+        context:m,
+        success:update_page,
+    });
 };
 
 bind_ui = function(){
@@ -54,12 +66,21 @@ bind_ui = function(){
     });
 
     //When you click on an item in the results pane, show the edit modal for that item
-    $('#results [item]').click(function(){
-        var i = $(this).attr('item');
-        var item_list = m.get_items();
-        var itm = item_list[i];
-        var html = "";
-        html += '<div style="background-color:#fff;width:100%;height:100%;">'
+    $('#results [item]').click(show_edit_modal);
+    //When you click the submit button in the edit modal, it calls m.edit on that item
+    //May have to grab and update corresponding item from item list
+
+    //If you're in the grid view, when you click the list tab, switch
+
+    //If you're in the list view, when you click the grid tab, switch
+}
+show_edit_modal = function(){
+    var i = $(this).attr('item');
+    var item_list = m.get_items();
+    var itm = item_list[i];
+    console.log(itm);
+    var html = "";
+    html += '<div style="background-color:#fff;width:100%;height:100%;">'
 
         //check for an image associated with the item, else add the placeholder image
         if(item_list[i].preview) {
@@ -72,42 +93,42 @@ bind_ui = function(){
 
     //display image on the left
     html += '<div class="" id="image" style="height:985px;width:640px;float:left;">';
-        html += '<img src="' + img + '"id=myimg'+i+' style=""></img></div>';
+    html += '<img src="' + img + '"id=myimg'+i+' style=""></img></div>';
 
-        //display metadata on the right
-        html += '<div class="span3" id="metadata">';
-        //metadata inside a form to allow updating
-        html += '<form name="update" action="google.com" method="post">';
-        // loop through metadata, adding all available information
-        for (var index in itm.metadata){
+    //display metadata on the right
+    html += '<div class="span3" id="metadata">';
+    //metadata inside a form to allow updating
+    html += '<form name="update" action="google.com" method="post">';
+    // loop through metadata, adding all available information
+    for (var index in itm.metadata){
 
-            //determine the size box needed to display this piece of metadata
-            //if(itm.metadata[index].length > 1){
-            //	console.log('hi');
-            //}
+        //determine the size box needed to display this piece of metadata
+        //if(itm.metadata[index].length > 1){
+        //	console.log('hi');
+        //}
 
 
 
-            html += '<h5>'+ index +'</h5><textarea class="metadataform" name="'+index+'" rows="2" cols="80" style="  border:none;border-color:transparent;outline:none;">'+itm.metadata[index]+'</textarea>';
-                //<input type="text" class="metadataform" name="'+index+'" value="'+itm.metadata[index]+'"/>'
-        }
+        html += '<h5>'+ index +'</h5><textarea class="metadataform" name="'+index+'" rows="2" cols="80" style="  border:none;border-color:transparent;outline:none;">'+itm.metadata[index]+'</textarea>';
+        //html += '<h5>' + index +'</h5><input type="text" class="metadataform" name="'+index+'" value="'+itm.metadata[index]+'"/>'
+    }
 
 
 
     html += '</form></div>';
-        html += '<div class="modal-footer">';
-        html += '<a href="#" class="btn">Close</a>';
-        html += '<a href="#" class="btn btn-primary" type="Submit">Save changes</a></div></div>';
-        $.colorbox({html:html});
+    html += '<div class="modal-footer">';
+    html += '<a href="#" class="btn">Close</a>';
+    html += '<a href="#" class="btn btn-primary" type="Submit">Save changes</a></div></div>';
+    $.colorbox({html:html});
+    $('#colorbox textarea').each(function(){
+        console.log($(this).attr('name'));
+        var name = $(this).attr('name');
+        $(this).typeahead({
+            source:m.autocomplete_dict[name],
+            mode:'multiple'
+        });
     });
-
-    //When you click the submit button in the edit modal, it calls m.edit on that item
-    //May have to grab and update corresponding item from item list
-
-    //If you're in the grid view, when you click the list tab, switch
-
-    //If you're in the list view, when you click the grid tab, switch
-}
+};
 
 
 m = new Model();
@@ -118,5 +139,11 @@ $.ajax({
     dataType:"json",
     context:m,
     success:m.update_properties,
+});
+$.ajax({
+    url:'http://hollre.com/values.json',
+    dataType:"json",
+    context:m,
+    success:m.update_autocomplete_dict
 });
 init_with_everything();

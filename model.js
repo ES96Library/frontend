@@ -13,6 +13,8 @@ function Model(){
     this.item_list = [];
     this.current = [];
     this.property_dict = {};
+    this.prop_id_dict = {};
+    this.autocomplete_dict = {};
 
 
 }
@@ -92,16 +94,30 @@ Model.prototype.update = function(json){
 }
 Model.prototype.update_properties = function(json){
     var out = {};
+    var out2 = {};
 
     for (var i in json){
         out[json[i].name] = json[i].id;
+        out[json[i].id] = json[i].name;
     }
 
     this.property_dict = out;
+    this.prop_id_dict = out;
+}
+Model.prototype.update_autocomplete_dict = function(data){
+    console.log(data);
+    for (var i in data){
+        var val = data[i];
+        var key = m.prop_id_dict[val.property_id];
+        console.log(key);
+        if (key in this.autocomplete_dict)
+            this.autocomplete_dict[key].push(val.name);
+        else
+            this.autocomplete_dict[key] = [val.name];
+    }
+    console.log(m.autocomplete_dict);
 }
 Model.prototype.search = function(facets){
-    //Takes an set of key-value pairs and sends an AJAX request
-    //The callback for the AJAX call should probably be update
     console.log(facets);
     out = {};
     for (var i in facets){
@@ -118,7 +134,13 @@ Model.prototype.search = function(facets){
     */
 
 }
-Model.prototype.edit = function(item){
-    //takes an item object and sends an AJAX edit request
-    //should return true on success, false on failure
+Model.prototype.edit = function(itm){
+    out = {}
+    out.id = itm.id;
+    out.image = itm.image;
+    out.preview = itm.preview;
+    out.properties = [];
+    for (var k in itm.metadata){
+    }
+    return out;
 }
