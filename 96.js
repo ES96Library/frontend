@@ -47,7 +47,6 @@ bind_ui = function(){
     //When you click the x button on a current filter, it calls m.search()
     $('#facets .close').click(function(){
         var to_remove = $(this).attr('facet');
-        console.log("removed facet " + to_remove);
         var nextsearch = $.extend(true, [], m.current);
         nextsearch.splice(to_remove, 1);
         if (nextsearch.length == 0)
@@ -59,7 +58,6 @@ bind_ui = function(){
     $('#facets li a').click(function(){
         var newkey = $(this).attr('facetkey');
         var newval = $(this).attr('facetval');
-        console.log("added facet " + newkey + " : " + newval);
         var nextsearch = $.extend(true, [], m.current);
         nextsearch.push([newkey,newval]);
         new_search(nextsearch);
@@ -80,7 +78,6 @@ show_edit_modal = function(){
 	var i = $(this).attr('item');
 	var item_list = m.get_items();
 	var itm = item_list[i];
-	console.log(itm);
 	var html = "";
 	html += '<div style="background-color:#fff;width:100%;height:100%;">'
 
@@ -105,35 +102,34 @@ show_edit_modal = function(){
 		var width = maxwidth;
 		var height = maxheight;
 
-		if(Math.floor(1.1*this.width) > maxwidth){
+		if(Math.floor(1.1*this.width+30) > maxwidth){
 			width = maxwidth;}
 		else {
-			width = Math.floor(1.1*this.width);
+			width = Math.floor(1.1*this.width+30);
 		}
 		
-		if(Math.floor(1.1*this.height) > maxheight){
+		if(Math.floor(1.1*this.height+30) > maxheight){
 			height = maxheight;}
 		else {
-			height = Math.floor(1.1*this.height);
+			height = Math.floor(1.1*this.height+30);
 		}
 
 	
 		//begin modal content
-	
+
 		//display image on the left
 		html += '<div class="imageholder" id="image" style="height:'+height+'px;width:'+width+'px;float:left;overflow:auto;">';
-		html += '<img src="' + img + '"id=myimg'+i+' style="padding-top:'+Math.floor(.05*width)+'px;padding-left:'+Math.floor(.05*width)+'px"></img></div>';
-		
+		html += '<img src="' + img + '"id=myimg'+i+' style="padding:15px"></img></div>';
+
 		//display metadata on the right
-		html += '<div class="span3" id="metadata">';
+		html += '<div class="span3" id="metadata" style="padding:15px">';
 		//metadata inside a form to allow updating
 		html += '<form name="update" action="google.com" method="post">';
 		// loop through metadata, adding all available information
 		for (var index in itm.metadata){
 			html += '<h5>'+ index +'</h5><textarea class="metadataform" name="'+index+'" rows="2" cols="80" style="  border:none;border-color:transparent;outline:none;">'+itm.metadata[index]+'</textarea>';
 		}
-	
-	
+
 	
 		html += '</form></div>';
 		html += '<div class="modal-footer">';
@@ -143,7 +139,6 @@ show_edit_modal = function(){
 	
 		
 		$('#colorbox textarea').each(function(){
-			console.log($(this).attr('name'));
 			var name = $(this).attr('name');
 			$(this).typeahead({
 				source:m.autocomplete_dict[name],

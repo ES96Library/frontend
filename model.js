@@ -51,7 +51,6 @@ Model.prototype.get_filters = function(){
         }
     }
 
-    //console.log(suggested);
     for (var k in suggested){
         var max = 0;
         for (var v in suggested[k]){
@@ -105,20 +104,16 @@ Model.prototype.update_properties = function(json){
     this.prop_id_dict = out;
 }
 Model.prototype.update_autocomplete_dict = function(data){
-    console.log(data);
     for (var i in data){
         var val = data[i];
         var key = m.prop_id_dict[val.property_id];
-        console.log(key);
         if (key in this.autocomplete_dict)
             this.autocomplete_dict[key].push(val.name);
         else
             this.autocomplete_dict[key] = [val.name];
     }
-    console.log(m.autocomplete_dict);
 }
 Model.prototype.search = function(facets){
-    console.log(facets);
     out = {};
     for (var i in facets){
         var facet = facets[i];
