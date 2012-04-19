@@ -105,27 +105,24 @@ show_edit_modal = function(){
 		var width = maxwidth;
 		var height = maxheight;
 
-		if(this.width > maxwidth){
+		if(Math.floor(1.1*this.width) > maxwidth){
 			width = maxwidth;}
 		else {
-			width = this.width;
+			width = Math.floor(1.1*this.width);
 		}
 		
-		if(this.height > maxheight){
+		if(Math.floor(1.1*this.height) > maxheight){
 			height = maxheight;}
 		else {
-			height = this.height;
+			height = Math.floor(1.1*this.height);
 		}
 
 	
 		//begin modal content
 	
 		//display image on the left
-		html += '<div class="" id="image" style="height:'+height+'px;width:'+width+'px;float:left;">';
-		html += '<img src="' + img + '"id=myimg'+i+' style=""></img></div>';
-		
-	
-		
+		html += '<div class="imageholder" id="image" style="height:'+height+'px;width:'+width+'px;float:left;overflow:auto;">';
+		html += '<img src="' + img + '"id=myimg'+i+' style="padding-top:'+Math.floor(.05*width)+'px;padding-left:'+Math.floor(.05*width)+'px"></img></div>';
 		
 		//display metadata on the right
 		html += '<div class="span3" id="metadata">';
@@ -133,9 +130,7 @@ show_edit_modal = function(){
 		html += '<form name="update" action="google.com" method="post">';
 		// loop through metadata, adding all available information
 		for (var index in itm.metadata){
-	
 			html += '<h5>'+ index +'</h5><textarea class="metadataform" name="'+index+'" rows="2" cols="80" style="  border:none;border-color:transparent;outline:none;">'+itm.metadata[index]+'</textarea>';
-			
 		}
 	
 	
