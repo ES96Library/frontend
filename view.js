@@ -55,7 +55,7 @@ View.prototype.draw_grid = function(item_list){
             img = this.default_image;
         };
     	
-		
+		//items per row = available size divided by gridcolumns
 		//put each row in a grid to keep heights consistant
 		//start a new row only when the previous row is full
 		if(counter >= this.gridcolumns){

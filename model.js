@@ -61,7 +61,6 @@ Model.prototype.get_filters = function(){
             //delete suggested[k];
     }
 
-    //console.log({"current":this.current, "suggested":suggested});
     return {"current":this.current, "suggested":suggested};
 //    return { "current": [["Collection","World's Greatest Library Special Collection"],["Author","Thomas Edison"],["Author","Michael Jordan"]], "suggested": {"Author":["Theodore Roosevelt","John Muir","Susan B. Anthony","Herbert Hoover"], "Location":["Los Angeles","Abu Dhabi","Chicago"], "Type":["Letter","Book","Dunk Footage"] }};
 
@@ -69,11 +68,10 @@ Model.prototype.get_filters = function(){
 Model.prototype.update = function(json){
     //replaces the current item list with the one supplied here
 
+	console.log(json);
     var out = [];
 
-    //console.log(json);
     for (var i in json.item){
-        //console.log(json.item[i][1]);
         var item_json = json.item[i]
         var new_metadata = {};
         for (var j in item_json[1].properties){

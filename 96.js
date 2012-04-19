@@ -122,18 +122,29 @@ show_edit_modal = function(){
 		html += '<img src="' + img + '"id=myimg'+i+' style="padding:15px"></img></div>';
 
 		//display metadata on the right
-		html += '<div class="span3" id="metadata" style="padding:15px">';
+		html += '<div class="span4" id="metadata" style="padding:15px">';
 		//metadata inside a form to allow updating
 		html += '<form name="update" action="google.com" method="post">';
+		
+		//metadata name and value in different columns of a table
+		html += '<table border="0">';
+
 		// loop through metadata, adding all available information
 		for (var index in itm.metadata){
-			html += '<h5>'+ index +'</h5><textarea class="metadataform" name="'+index+'" rows="2" cols="80" style="  border:none;border-color:transparent;outline:none;">'+itm.metadata[index]+'</textarea>';
+				html += '<tr>';
+				html += '<td><center><h5>'+ index +':&nbsp&nbsp</h5></center></td>';
+				html += '<td><textarea class="metadataform" name="'+index+'" rows="2" style="  border:none;border-color:transparent;outline:none;resize:vertical;max-height:110px">'+itm.metadata[index]+'</textarea></td>';
+				html += '</tr>';
+				
 		}
+		
+		html += '</table>';
+				
+			//html += '<h5>'+ index +'</h5><textarea class="metadataform" name="'+index+'" rows="2" cols="80" style="  border:none;border-color:transparent;outline:none;">'+itm.metadata[index]+'</textarea>';
 
-	
 		html += '</form></div>';
-		html += '<div class="modal-footer">';
-		//html += '<a href="#" class="btn">Close</a>';
+		html += '<div style="padding-right:62px"class="modal-footer">';
+		html += '<a href="#" class="btn">New Field</a>';
 		html += '<a href="#" class="btn btn-primary" type="Submit">Save changes</a></div></div>';
 		$.colorbox({html:html});
 	
