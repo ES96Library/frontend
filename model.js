@@ -112,19 +112,19 @@ Model.prototype.update_autocomplete_dict = function(data){
     }
 }
 Model.prototype.search = function(facets){
-    out = {};
+    /* out = {};
     for (var i in facets){
         var facet = facets[i];
         out = {"pair[][property_id]":this.property_dict[facet[0]],"pair[][value]":facet[1]};
     }
-    return out;
-    /*
+    */
+	
     out = {"pair":[]};
     for (var i in facets){
         var facet = facets[i];
         out.pair.push({"property_id":this.property_dict[facet[0]],"value":facet[1]});
     }
-    */
+    return out;
 
 }
 Model.prototype.edit = function(itm){
