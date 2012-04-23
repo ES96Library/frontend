@@ -11,6 +11,7 @@ function Model(){
     //This object has a list of Items
 
     this.item_list = [];
+    this.query = '';
     this.current = [];
     this.property_dict = {};
     this.prop_id_dict = {};
@@ -69,7 +70,7 @@ Model.prototype.get_filters = function(){
 Model.prototype.update = function(json){
     //replaces the current item list with the one supplied here
 
-	console.log(json);
+	//console.log(json);
     var out = [];
 
     for (var i in json.item){
@@ -118,7 +119,7 @@ Model.prototype.update_autocomplete_dict = function(data){
             this.autocomplete_dict[key] = [val.name];
     }
 }
-Model.prototype.search = function(facets){
+Model.prototype.search = function(q,facets,page){
     /* out = {};
     for (var i in facets){
         var facet = facets[i];
@@ -126,11 +127,17 @@ Model.prototype.search = function(facets){
     }
     */
 	
-    out = {"pair":[]};
-    for (var i in facets){
-        var facet = facets[i];
-        out.pair.push({"property_id":this.property_dict[facet[0]],"value":facet[1]});
+    out = {"page":page};
+    if (facets.length > 0){
+        out.pair = [];
+        for (var i in facets){
+            var facet = facets[i];
+            out.pair.push({"property_id":this.property_dict[facet[0]],"value":facet[1]});
+        }
     }
+    if (q.length > 0)
+        out.value = [q];
+    console.log(out);
     return out;
 
 }

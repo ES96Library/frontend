@@ -16,8 +16,8 @@ init_with_everything = function(){
     });
     m.current = [];
 };
-new_search = function(kv_array){
-    var search_json = m.search(kv_array);
+new_search = function(query,kv_array,page){
+    var search_json = m.search(query,kv_array,page);
     $.ajax({
         type: 'POST',
         url:'http://hollre.com/items/search.json',
@@ -103,6 +103,11 @@ destroy_item_values = function(item_id){
 
 bind_ui = function(){
     //Bind all our UI buttons...
+    var searchid = '#searchbar';
+    $(searchid).submit(function(){
+        new_search($(searchid+' input[type="text"]').val(),[],1);
+        return false;
+    });
     //When you click the x button on a current filter, it calls m.search()
     $('#facets .close').click(function(){
         var to_remove = $(this).attr('facet');
@@ -111,7 +116,7 @@ bind_ui = function(){
         if (nextsearch.length == 0)
             init_with_everything();
         else
-            new_search(nextsearch);
+            new_search(m.query,nextsearch,1);
     });
     //When you click on a suggested filter, it calls m.search() 
     $('#facets li a').click(function(){
@@ -119,7 +124,7 @@ bind_ui = function(){
         var newval = $(this).attr('facetval');
         var nextsearch = $.extend(true, [], m.current);
         nextsearch.push([newkey,newval]);
-        new_search(nextsearch);
+        new_search(m.query,nextsearch,1);
     });
 
     //When you click on an item in the results pane, show the edit modal for that item
