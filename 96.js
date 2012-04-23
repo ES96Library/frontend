@@ -218,6 +218,7 @@ show_edit_modal = function(){
 		for (var index in itm.metadata){
 				html += '<tr>';
 				html += '<td><center><h5>'+ index +':&nbsp&nbsp</h5></center></td>';
+
 				html += '<td><textarea class="metadataform val" name="'+index+'" rows="2" style="  border:none;border-color:transparent;outline:none;resize:none;max-height:110px">'+itm.metadata[index]+'</textarea></td>';
 				html += '</tr>';
 				
@@ -231,9 +232,7 @@ show_edit_modal = function(){
 		html += '<div class="modal-footer">';
 		html += '<a href="#" class="btn new_field">New Field</a>';
 		html += '<a href="#" class="btn btn-primary submit_edit" type="Submit">Save changes</a></div></div>';
-        console.log(maxwidth);
 		$.colorbox({html:html,width:maxwidth});
-	
 		
 		$('#colorbox textarea').each(function(){
 			var name = $(this).attr('name');
