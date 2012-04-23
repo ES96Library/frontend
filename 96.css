@@ -16,6 +16,6 @@ a.metadataform{
 
 .thumbnail:hover{
   cursor:pointer;
-  border: 2px inset rgba(0, 178, 238, .5);
+  border: 1px inset rgba(0, 178, 238, .5);
 }
 

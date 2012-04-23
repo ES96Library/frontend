@@ -35,7 +35,7 @@ submit_edit = function(){
             "0":{
                 "name":"asdf",
                 "property_attributes":{
-                    "id":"89"
+                    "id":"3"
                 },
                 
             },
@@ -217,7 +217,8 @@ show_edit_modal = function(){
 		for (var index in itm.metadata){
 				html += '<tr>';
 				html += '<td><center><h5>'+ index +':&nbsp&nbsp</h5></center></td>';
-				html += '<td><textarea class="metadataform" name="'+index+'" rows="2" style="  border:none;border-color:transparent;outline:none;resize:vertical;max-height:110px">'+itm.metadata[index]+'</textarea></td>';
+
+				html += '<td><textarea class="metadataform val" name="'+index+'" rows="2" style="  border:none;border-color:transparent;outline:none;resize:none;max-height:110px">'+itm.metadata[index]+'</textarea></td>';
 				html += '</tr>';
 				
 		}
@@ -244,10 +245,12 @@ show_edit_modal = function(){
         $('#colorbox .submit_edit').click(function(){
             console.log(iid);
             destroy_item_values(iid);
-            var fields = $('#colorbox textarea');
+            var fields = $('#colorbox textarea.val');
             fields.each(function(){
                 var vals = $(this).val().split(',');
                 var prop_name = $(this).attr('name');
+                if (prop_name.length == 0)
+                    prop_name = $(this).closest('tr').find('textarea.key').val();
                 for (var i in vals){
                     console.log([iid,prop_name,vals[i]]);
                     add_value(iid,prop_name,vals[i]);
@@ -256,6 +259,11 @@ show_edit_modal = function(){
             //new_search(m.current);
         });
 		
+        $('#colorbox .new_field').click(function(){
+            html = '<tr><td><textarea class="key metadataform"></textarea></td><td><textarea class="val metadataform" name=""></textarea></td></tr>';
+            $('#colorbox table').append(html);
+        });
+
     }
 	image1.src = img;
 };
