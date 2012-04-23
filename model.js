@@ -145,8 +145,9 @@ Model.prototype.search = function(q,facets,page){
             out.pair.push({"property_id":this.property_dict[facet[0]],"value":facet[1]});
         }
     }
+    m.query = q;
     if (q.length > 0)
-        out.value = [q];
+        out.value = {0:q};
     console.log(out);
     return out;
 

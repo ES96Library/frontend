@@ -35,7 +35,7 @@ submit_edit = function(){
             "0":{
                 "name":"asdf",
                 "property_attributes":{
-                    "id":"89"
+                    "id":"3"
                 },
                 
             },
