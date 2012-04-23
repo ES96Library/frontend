@@ -217,7 +217,7 @@ show_edit_modal = function(){
 		for (var index in itm.metadata){
 				html += '<tr>';
 				html += '<td><center><h5>'+ index +':&nbsp&nbsp</h5></center></td>';
-				html += '<td><textarea class="metadataform" name="'+index+'" rows="2" style="  border:none;border-color:transparent;outline:none;resize:vertical;max-height:110px">'+itm.metadata[index]+'</textarea></td>';
+				html += '<td><textarea class="metadataform" name="'+index+'" rows="2" style="  border:none;border-color:transparent;outline:none;resize:none;max-height:110px">'+itm.metadata[index]+'</textarea></td>';
 				html += '</tr>';
 				
 		}
