@@ -9,3 +9,7 @@ a.metadataform{
   overflow:auto;
 }
 
+.thumbnail:hover{
+  border: 1px inset #00B2EE;
+}
+
