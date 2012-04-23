@@ -13,6 +13,8 @@ function Model(){
     this.item_list = [];
     this.query = '';
     this.current = [];
+    this.page = 1;
+
     this.property_dict = {};
     this.prop_id_dict = {};
     this.autocomplete_dict = {};
@@ -67,7 +69,7 @@ Model.prototype.get_filters = function(){
 //    return { "current": [["Collection","World's Greatest Library Special Collection"],["Author","Thomas Edison"],["Author","Michael Jordan"]], "suggested": {"Author":["Theodore Roosevelt","John Muir","Susan B. Anthony","Herbert Hoover"], "Location":["Los Angeles","Abu Dhabi","Chicago"], "Type":["Letter","Book","Dunk Footage"] }};
 
 }
-Model.prototype.update = function(json){
+Model.prototype.parse = function(json){
     //replaces the current item list with the one supplied here
 
 	//console.log(json);
@@ -95,7 +97,14 @@ Model.prototype.update = function(json){
         out.push(new_item);
     }
 
-    this.item_list = out;
+    return out;
+}
+Model.prototype.update = function(json){
+    this.item_list = this.parse(json);
+}
+Model.prototype.addpage = function(json){
+    var new_items = this.parse(json);
+    $.merge(this.item_list,new_items);
 }
 Model.prototype.update_properties = function(json){
     var out = {};
@@ -127,6 +136,7 @@ Model.prototype.search = function(q,facets,page){
     }
     */
 	
+    this.page = page;
     out = {"page":page};
     if (facets.length > 0){
         out.pair = [];

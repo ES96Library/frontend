@@ -101,8 +101,9 @@ View.prototype.draw_grid = function(item_list){
 
     }
     //close the last row div and the unordered list of the thumbnails
-    html += '</div></ul>'
-        $('#results').html(html);
+    html += '</div></ul>';
+    html += '<button id="morebutton" class="btn btn-large span9">See more</button>';
+    $('#results').html(html);
 	document.getElementById('loading').style.display = 'none';
 }
 View.prototype.draw_list = function(item_list){

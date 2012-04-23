@@ -16,8 +16,8 @@ init_with_everything = function(){
     });
     m.current = [];
 };
-new_search = function(query,kv_array,page){
-    var search_json = m.search(query,kv_array,page);
+new_search = function(query,kv_array){
+    var search_json = m.search(query,kv_array,1);
     $.ajax({
         type: 'POST',
         url:'http://hollre.com/items/search.json',
@@ -116,7 +116,7 @@ bind_ui = function(){
         if (nextsearch.length == 0)
             init_with_everything();
         else
-            new_search(m.query,nextsearch,1);
+            new_search(m.query,nextsearch);
     });
     //When you click on a suggested filter, it calls m.search() 
     $('#facets li a').click(function(){
@@ -124,18 +124,37 @@ bind_ui = function(){
         var newval = $(this).attr('facetval');
         var nextsearch = $.extend(true, [], m.current);
         nextsearch.push([newkey,newval]);
-        new_search(m.query,nextsearch,1);
+        new_search(m.query,nextsearch);
+    });
+    bind_grid_ui();
+}
+bind_grid_ui = function(){
+    //When you click on the more button, next page loads
+    $('#morebutton').click(function(){
+        var url = 'http://hollre.com/items/search.json';
+        var method = 'POST';
+        if (m.query.length == 0 && m.current.length == 0){
+            url = 'http://hollre.com/items.json';
+            method = 'GET';
+        }
+        var search_json = m.search(m.query,m.current,m.page+1);
+        $.ajax({
+            type:method,
+            url:url,
+            dataType:"json",
+            data: search_json,
+            context:m,
+            success:function(data){
+                m.addpage(data);
+                v.draw_grid(m.get_items());
+                bind_grid_ui();
+            },
+        });
     });
 
     //When you click on an item in the results pane, show the edit modal for that item
     $('#results [item]').click(show_edit_modal);
-    //When you click the submit button in the edit modal, it calls m.edit on that item
-    //May have to grab and update corresponding item from item list
-
-    //If you're in the grid view, when you click the list tab, switch
-
-    //If you're in the list view, when you click the grid tab, switch
-}
+};
 show_edit_modal = function(){
 			
 		
