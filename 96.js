@@ -200,6 +200,7 @@ show_edit_modal = function(){
 
 	
 		//begin modal content
+        html += '<div class="row">';
 
 		//display image on the left
 		html += '<div class="imageholder" id="image" style="height:'+height+'px;width:'+width+'px;float:left;overflow:auto;">';
@@ -211,7 +212,7 @@ show_edit_modal = function(){
 		html += '<form name="update" action="google.com" method="post">';
 		
 		//metadata name and value in different columns of a table
-		html += '<table border="0">';
+		html += '<table id="mdtable" border="0">';
 
 		// loop through metadata, adding all available information
 		for (var index in itm.metadata){
@@ -226,11 +227,12 @@ show_edit_modal = function(){
 				
 			//html += '<h5>'+ index +'</h5><textarea class="metadataform" name="'+index+'" rows="2" cols="80" style="  border:none;border-color:transparent;outline:none;">'+itm.metadata[index]+'</textarea>';
 
-		html += '</form></div>';
-		html += '<div style="padding-right:62px"class="modal-footer">';
+		html += '</form></div></div>';
+		html += '<div class="modal-footer">';
 		html += '<a href="#" class="btn new_field">New Field</a>';
 		html += '<a href="#" class="btn btn-primary submit_edit" type="Submit">Save changes</a></div></div>';
-		$.colorbox({html:html});
+        console.log(maxwidth);
+		$.colorbox({html:html,width:maxwidth});
 	
 		
 		$('#colorbox textarea').each(function(){
@@ -260,7 +262,7 @@ show_edit_modal = function(){
 		
         $('#colorbox .new_field').click(function(){
             html = '<tr><td><textarea class="key metadataform"></textarea></td><td><textarea class="val metadataform" name=""></textarea></td></tr>';
-            $('#colorbox table').append(html);
+            $('#mdtable').append(html);
         });
 
     }
