@@ -30,7 +30,19 @@ new_search = function(kv_array){
 };
 submit_edit = function(){
 //    var data = m.edit(itm);
-    var data = {"id":1,"image":"http://s3.amazonaws.com/es96library/images/1/c4fe3da460dd7edd3542b0b2e3919957af9f9bae.jpg?1334771965","thumb":"http://s3.amazonaws.com/es96library/images/1/54b4d7d1d5e9a866b294400697a2752954d68d98.jpg?1334771965","preview":"http://s3.amazonaws.com/es96library/images/1/fbd8471359bd2edd1d190e239bbfc374b2167e47.jpg?1334771965","properties":[["author",[{"id":1,"name":"Thomas Edison"}]],["title",[{"id":2,"name":"The Invention of the Lightbulb: Thomas Edison - With Response by Nicola Tesla"}]],["type",[{"id":3,"name":"Manuscript"}]],["description",[{"id":4,"name":"Detail of the first public demonstration of Thomas Edison's incandescent lighting system in December 1879, at which time the Menlo Park laboratory complex was first electrically lighted. Edit successful."}]]]};
+    var data = {"item":{
+        "values_attributes":{
+            "0":{
+                "name":"asdf",
+                "property_attributes":{
+                    "id":"89"
+                },
+                
+            },
+        }
+    },
+    "id":"2"
+};
     var id = data.id;
     $.ajax({
         type: 'PUT',
@@ -38,8 +50,55 @@ submit_edit = function(){
         dataType:"json",
         data: data,
         context:m,
-        success:update_page,
     });
+};
+add_value = function(item_id, prop_name, val){
+    var data = {"item":{
+        "values_attributes":{
+            "0":{
+                "name":val,
+                "property_attributes":{
+                    "name":prop_name
+                },
+            },
+        }
+    },
+        "id":item_id
+    };
+    $.ajax({
+        type: 'PUT',
+        url:'http://hollre.com/items/'+item_id+'.json',
+        dataType:"json",
+        data: data,
+        context:m,
+    });
+    /*
+    var data = {"value":{
+        "name":val,
+        "item_attributes":{"id":item_id},
+        "property_attributes":{"id":prop_id},
+    }};
+    $.ajax({
+        type: 'POST',
+        url:'http://hollre.com/values.json',
+        dataType:"json",
+        data: data,
+        context:m,
+    });
+    */
+};
+destroy_value = function(id){
+    $.ajax({
+        type: 'DELETE',
+        url:'http://hollre.com/values/'+id+'.json',
+    });
+};
+destroy_item_values = function(item_id){
+    var vids = m.value_id_dict[item_id];
+    for (var i in vids){
+        destroy_value(vids[i]);
+        console.log('destroyed value '+vids[i]);
+    }
 };
 
 bind_ui = function(){
@@ -76,6 +135,7 @@ show_edit_modal = function(){
 			
 		
 	var i = $(this).attr('item');
+    var iid = $(this).attr('iid');
 	var item_list = m.get_items();
 	var itm = item_list[i];
 	var html = "";
@@ -144,8 +204,8 @@ show_edit_modal = function(){
 
 		html += '</form></div>';
 		html += '<div style="padding-right:62px"class="modal-footer">';
-		html += '<a href="#" class="btn">New Field</a>';
-		html += '<a href="#" class="btn btn-primary" type="Submit">Save changes</a></div></div>';
+		html += '<a href="#" class="btn new_field">New Field</a>';
+		html += '<a href="#" class="btn btn-primary submit_edit" type="Submit">Save changes</a></div></div>';
 		$.colorbox({html:html});
 	
 		
@@ -156,6 +216,21 @@ show_edit_modal = function(){
 				mode:'multiple'
 			});
 		});
+
+        $('#colorbox .submit_edit').click(function(){
+            console.log(iid);
+            destroy_item_values(iid);
+            var fields = $('#colorbox textarea');
+            fields.each(function(){
+                var vals = $(this).val().split(',');
+                var prop_name = $(this).attr('name');
+                for (var i in vals){
+                    console.log([iid,prop_name,vals[i]]);
+                    add_value(iid,prop_name,vals[i]);
+                }
+            });
+            //new_search(m.current);
+        });
 		
     }
 	image1.src = img;

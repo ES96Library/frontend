@@ -69,7 +69,7 @@ View.prototype.draw_grid = function(item_list){
 		
 
        		//display the thumbnails
-       		html += '<div data-toggle="modal" item="'+i+'" >';
+       		html += '<div data-toggle="modal" item="'+i+'" iid="'+item_list[i].id+'" >';
       		html += '<li class="span'+ this.gridcolumns + '"><div class="thumbnail"><img src="' + img + '" alt=""><h6>'+item_list[i].metadata['Author']+'</h6>'+item_list[i].metadata['Title']+'</div></li></div>';
         	
         	//increment variable counting thumbnails per row

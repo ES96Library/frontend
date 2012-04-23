@@ -15,6 +15,7 @@ function Model(){
     this.property_dict = {};
     this.prop_id_dict = {};
     this.autocomplete_dict = {};
+    this.value_id_dict = {};
 
 
 }
@@ -72,18 +73,24 @@ Model.prototype.update = function(json){
     var out = [];
 
     for (var i in json.item){
-        var item_json = json.item[i]
+        var item_json = json.item[i];
+        var item_id = item_json[0];
         var new_metadata = {};
         for (var j in item_json[1].properties){
             var metadata_json = item_json[1].properties[j];
             var k = metadata_json[0];
+            var vid = metadata_json[1][0].id;
             var v = metadata_json[1][0].name;
+            if (item_id in this.value_id_dict)
+                this.value_id_dict[item_id].push(vid);
+            else
+                this.value_id_dict[item_id] = [vid];
             if (k in new_metadata)
                 new_metadata[k].push(v);
             else
                 new_metadata[k] = [v];
         }
-        var new_item = new Item(item_json[0],item_json[1].thumb,item_json[1].preview,item_json[1].thumb,new_metadata);
+        var new_item = new Item(item_id,item_json[1].thumb,item_json[1].preview,item_json[1].thumb,new_metadata);
         out.push(new_item);
     }
 
@@ -95,11 +102,11 @@ Model.prototype.update_properties = function(json){
 
     for (var i in json){
         out[json[i].name] = json[i].id;
-        out[json[i].id] = json[i].name;
+        out2[json[i].id] = json[i].name;
     }
 
     this.property_dict = out;
-    this.prop_id_dict = out;
+    this.prop_id_dict = out2;
 }
 Model.prototype.update_autocomplete_dict = function(data){
     for (var i in data){
