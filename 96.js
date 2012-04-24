@@ -189,7 +189,7 @@ show_edit_modal = function(){
 		var height = maxheight;
 
 		if(Math.floor(1.1*this.width) > maxwidth){
-			width = maxwidth - 500;}
+			width = maxwidth - 100;}
 		else {
 			width = Math.floor(1.1*this.width);
 		}
@@ -248,6 +248,7 @@ show_edit_modal = function(){
 		//$.colorbox({html:html,width:maxwidth});
 		$.colorbox({html:html});
 
+
 		$('#colorbox textarea').each(function(){
 			var name = $(this).attr('name');
 			$(this).typeahead({
@@ -280,6 +281,10 @@ show_edit_modal = function(){
         $('#colorbox .new_field').click(function(){
             html = '<tr><td><textarea class="key metadataform" rows="1"></textarea></td><td><textarea class="val metadataform" rows="1" name=""></textarea></td></tr>';
             $('#mdtable').append(html);
+            
+            var modalheight = $('#colorbox').height();
+            modalheight += 50;
+            $.colorbox.resize({height:modalheight});
             $('.key').focus();
         });
 
@@ -317,9 +322,18 @@ show_edit_modal = function(){
   		});
   		
   		
+  		
+  		
 
     }
 	image1.src = img;
+	
+			
+	var modalwidth = $('#colorbox').width();
+    modalwidth += 50;
+    console.log(modalwidth);
+    console.log($('#colorbox').width());
+    $.colorbox.resize({width:modalwidth});
 };
 
 
