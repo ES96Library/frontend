@@ -186,13 +186,13 @@ show_edit_modal = function(){
 		var width = maxwidth;
 		var height = maxheight;
 
-		if(Math.floor(1.1*this.width+30) > maxwidth){
-			width = maxwidth;}
+		if(Math.floor(1.1*this.width) > maxwidth){
+			width = maxwidth - 500;}
 		else {
-			width = Math.floor(1.1*this.width+30);
+			width = Math.floor(1.1*this.width);
 		}
 		
-		if(Math.floor(1.1*this.height+30) > maxheight){
+		if(Math.floor(1.1*this.height) > maxheight){
 			height = maxheight;}
 		else {
 			height = Math.floor(1.1*this.height+30);
@@ -200,16 +200,20 @@ show_edit_modal = function(){
 
 	
 		//begin modal content
-        html += '<div class="row">';
+        html += '<table id="modaltable">';
+        html += '<tr>';
+        
 
 		//display image on the left
-		html += '<div class="imageholder" id="image" style="height:'+height+'px;width:'+width+'px;float:left;overflow:auto;">';
-		html += '<img src="' + img + '"id=myimg'+i+' style="padding:15px"></img></div>';
+		html += '<td class="imageholder" id="image">';
+		//height:'+height+'px;width:'+width+'px;
+		
+		html += '<img src="' + img + '"id=myimg'+i+' style="padding:15px"></img></td>';
 
 		//display metadata on the right
-		html += '<div class="span4" id="metadata" style="padding:15px">';
+		html += '<td id="metadata" style="padding:15px">';
 		//metadata inside a form to allow updating
-		html += '<form name="update" action="google.com" method="post">';
+		html += '<form name="update">';
 		
 		//metadata name and value in different columns of a table
 		html += '<table id="mdtable" border="0">';
@@ -219,7 +223,7 @@ show_edit_modal = function(){
 				html += '<tr>';
 				html += '<td><center><h5>'+ index +':&nbsp&nbsp</h5></center></td>';
 
-				html += '<td><textarea class="metadataform val" name="'+index+'" rows="2" style="  border:none;border-color:transparent;outline:none;resize:none;max-height:110px">'+itm.metadata[index]+'</textarea></td>';
+				html += '<td><textarea class="metadataform val" name="'+index+'" rows="1">'+itm.metadata[index]+'</textarea></td>';
 				html += '</tr>';
 				
 		}
@@ -232,8 +236,8 @@ show_edit_modal = function(){
 		html += '<div class="modal-footer">';
 		html += '<a href="#" class="btn new_field">New Field</a>';
 		html += '<a href="#" class="btn btn-primary submit_edit" type="Submit">Save changes</a></div></div>';
-		$.colorbox({html:html,width:maxwidth});
-		
+		//$.colorbox({html:html,width:maxwidth});
+		$.colorbox({html:html});
 		$('#colorbox textarea').each(function(){
 			var name = $(this).attr('name');
 			$(this).typeahead({
@@ -260,9 +264,13 @@ show_edit_modal = function(){
         });
 		
         $('#colorbox .new_field').click(function(){
-            html = '<tr><td><textarea class="key metadataform"></textarea></td><td><textarea class="val metadataform" name=""></textarea></td></tr>';
+            html = '<tr><td><textarea class="key metadataform" rows="1" cols="10"></textarea></td><td><textarea class="val metadataform" rows="1" name=""></textarea></td></tr>';
             $('#mdtable').append(html);
         });
+        
+    	$("textarea").blur(function(){
+    		$("textarea").attr('style','background-color="#FFF"');
+  		});
 
     }
 	image1.src = img;

@@ -2,12 +2,27 @@ body{
   padding-top:2em;
 }
 
-a.metadataform{
+.metadataform{
   border:none;
   border-color:transparent;
   outline:none;
   overflow:auto;
+  resize:none;
 }
+
+.metadataform:focus{
+  border:none;
+  border-color:transparent;
+  outline:none;
+  overflow:auto;
+  resize:vertical;
+}
+
+.key{
+  height:20px;
+  width:75px;
+}
+
 
 .thumbnail{
   border: 1px inset;
@@ -19,3 +34,12 @@ a.metadataform{
   border: 1px inset rgba(0, 178, 238, .5);
 }
 
+#modaltable{
+	background-color:#fff;
+}
+
+
+.imageholder{
+  float:left;
+  overflow:auto;
+}
