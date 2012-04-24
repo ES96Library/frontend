@@ -18,6 +18,18 @@ body{
   resize:vertical;
 }
 
+.myimg{
+padding-left:15px;
+padding-right:15px;
+padding-bottom:15px;
+padding-top:5px;
+}
+
+.myimglink{
+  cursor:default;
+}
+
+
 .key{
   height:20px;
   width:75px;
@@ -26,13 +38,21 @@ body{
 
 .thumbnail{
   border: 1px inset;
+  margin: 1px;
 }
 
 
 .thumbnail:hover{
   cursor:pointer;
-  border: 1px inset rgba(0, 178, 238, .5);
+  border: 2px inset rgba(0, 178, 238, .5);
+  margin:0px;
 }
+
+#colorbox .btn-mini{
+	margin:5px;
+}
+
+
 
 #modaltable{
 	background-color:#fff;

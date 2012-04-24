@@ -157,7 +157,7 @@ bind_grid_ui = function(){
 };
 show_edit_modal = function(){
 			
-		
+
 	var i = $(this).attr('item');
     var iid = $(this).attr('iid');
 	var item_list = m.get_items();
@@ -172,6 +172,8 @@ show_edit_modal = function(){
 			img = this.default_image;
 		};
 
+
+    var thumbnail = this;
 	
 	var image1 = new Image();
 	image1.onload = function() {
@@ -200,6 +202,13 @@ show_edit_modal = function(){
 
 	
 		//begin modal content
+		
+		//next and previous buttons in a header
+		
+		html += '<a href="#" class="btn btn-mini previous-btn" type="Submit">Previous</a>';
+		html += '<a href="#" class="btn btn-mini next-btn" type="Submit" style="float:right;">Next</a>';
+        
+        
         html += '<table id="modaltable">';
         html += '<tr>';
         
@@ -208,7 +217,7 @@ show_edit_modal = function(){
 		html += '<td class="imageholder" id="image">';
 		//height:'+height+'px;width:'+width+'px;
 		
-		html += '<img src="' + img + '"id=myimg'+i+' style="padding:15px"></img></td>';
+		html += '<a href="' + img + '" class="myimglink"><img src="' + img + '"id=myimg'+i+' class="myimg"></img></a></td>';
 
 		//display metadata on the right
 		html += '<td id="metadata" style="padding:15px">';
@@ -238,6 +247,7 @@ show_edit_modal = function(){
 		html += '<a href="#" class="btn btn-primary submit_edit" type="Submit">Save changes</a></div></div>';
 		//$.colorbox({html:html,width:maxwidth});
 		$.colorbox({html:html});
+
 		$('#colorbox textarea').each(function(){
 			var name = $(this).attr('name');
 			$(this).typeahead({
@@ -246,6 +256,7 @@ show_edit_modal = function(){
 			});
 		});
 
+		// on click of submit button, submit metadata
         $('#colorbox .submit_edit').click(function(){
             console.log(iid);
             destroy_item_values(iid);
@@ -265,20 +276,47 @@ show_edit_modal = function(){
             //new_search(m.current);
         });
 		
+		// on click of the new field button, add boxes to input new fields
         $('#colorbox .new_field').click(function(){
             html = '<tr><td><textarea class="key metadataform" rows="1"></textarea></td><td><textarea class="val metadataform" rows="1" name=""></textarea></td></tr>';
             $('#mdtable').append(html);
             $('.key').focus();
         });
+
+        // next and previous button handler
+        // next button
+        $('#colorbox .next-btn').click(function(){
+			var n= parseInt($(thumbnail).attr('item'))+1;
+			var item = ($('[item="'+n+'"]'));
+			console.log(item);
+			show_edit_modal.call($('[item="'+n+'"]'));
+        });
+
+		// previous button
+        $('#colorbox .previous-btn').click(function(){
+			var n= parseInt($(thumbnail).attr('item'))-1;
+			var item = ($('[item="'+n+'"]'));
+			console.log(item);
+			show_edit_modal.call($('[item="'+n+'"]'));
+
+
+			
+			
+			
+        });
         
+        // reset modal edit boxes to original size while they are not being edited
     	$("textarea").blur(function(){
     		$(this).attr('rows','1');
   		});
   		
+  		// on focus, expand modal edit box to show all the text it contains
   		$("textarea").focus(function(){
   			rownumber = Math.ceil(($(this).val().length)/30);
     		$(this).attr('rows',rownumber);
   		});
+  		
+  		
 
     }
 	image1.src = img;
