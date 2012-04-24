@@ -256,8 +256,10 @@ show_edit_modal = function(){
                 if (prop_name.length == 0)
                     prop_name = $(this).closest('tr').find('textarea.key').val();
                 for (var i in vals){
-                    console.log([iid,prop_name,vals[i]]);
-                    add_value(iid,prop_name,vals[i]);
+                    if (vals[i].length > 0){
+                        console.log([iid,prop_name,vals[i]]);
+                        add_value(iid,prop_name,vals[i]);
+                    }
                 }
             });
             //new_search(m.current);
