@@ -264,8 +264,9 @@ show_edit_modal = function(){
         });
 		
         $('#colorbox .new_field').click(function(){
-            html = '<tr><td><textarea class="key metadataform" rows="1" cols="10"></textarea></td><td><textarea class="val metadataform" rows="1" name=""></textarea></td></tr>';
+            html = '<tr><td><textarea class="key metadataform" rows="1"></textarea></td><td><textarea class="val metadataform" rows="1" name=""></textarea></td></tr>';
             $('#mdtable').append(html);
+            $('.key').focus();
         });
         
     	$("textarea").blur(function(){
