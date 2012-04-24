@@ -272,7 +272,12 @@ show_edit_modal = function(){
         });
         
     	$("textarea").blur(function(){
-    		$("textarea").attr('style','background-color="#FFF"');
+    		$(this).attr('rows','1');
+  		});
+  		
+  		$("textarea").focus(function(){
+  			rownumber = Math.ceil(($(this).val().length)/30);
+    		$(this).attr('rows',rownumber);
   		});
 
     }
