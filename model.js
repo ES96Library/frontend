@@ -148,7 +148,6 @@ Model.prototype.search = function(q,facets,page){
     m.query = q;
     if (q.length > 0)
         out.value = {0:q};
-    console.log(out);
     return out;
 
 }

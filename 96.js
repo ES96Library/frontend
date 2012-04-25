@@ -15,6 +15,7 @@ init_with_everything = function(){
         success:update_page,
     });
     m.current = [];
+    location.hash = '';
 };
 new_search = function(query,kv_array){
     var search_json = m.search(query,kv_array,1);
@@ -26,6 +27,7 @@ new_search = function(query,kv_array){
         context:m,
         success:update_page,
     });
+    location.hash = JSON.stringify({q:query,kv:kv_array});
     m.current = kv_array;
 };
 submit_edit = function(){
@@ -345,6 +347,14 @@ $.ajax({
     dataType:"json",
     context:m,
     success:m.update_properties,
+    complete:function(){
+        if (location.hash.length == 0){
+            init_with_everything();
+        }else{
+            var args = JSON.parse(location.hash.slice(1));
+            new_search(args.q,args.kv);
+        }
+    }
 });
 $.ajax({
     url:'http://hollre.com/values.json',
@@ -352,4 +362,4 @@ $.ajax({
     context:m,
     success:m.update_autocomplete_dict
 });
-init_with_everything();
+console.log(location.hash);

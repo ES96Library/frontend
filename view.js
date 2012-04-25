@@ -30,7 +30,7 @@ View.prototype.draw_filters = function(filters){
         html += '<li class="nav-header">' + k + '</li>';
 
         for(var v in suggested[k]) {
-            html += '<li><a href="#" facetkey="'+k+'" facetval="'+v+'">' + v + ' (' + suggested[k][v] + ')</a></li>';
+            html += '<li><a facetkey="'+k+'" facetval="'+v+'">' + v + ' (' + suggested[k][v] + ')</a></li>';
         }
     }
     html += '</ul>';
