@@ -26,6 +26,7 @@ new_search = function(query,kv_array){
         data: search_json,
         context:m,
         success:update_page,
+        failure:init_with_everything
     });
     location.hash = JSON.stringify({q:query,kv:kv_array});
     m.current = kv_array;
@@ -105,9 +106,8 @@ destroy_item_values = function(item_id){
 
 bind_ui = function(){
     //Bind all our UI buttons...
-    var searchid = '#searchbar';
-    $(searchid).submit(function(){
-        new_search($(searchid+' input[type="text"]').val(),[],1);
+    $('#searchbar').submit(function(){
+        new_search($('#searchbar input[type="text"]').val(),[],1);
         return false;
     });
     //When you click the x button on a current filter, it calls m.search()
@@ -352,6 +352,7 @@ $.ajax({
             init_with_everything();
         }else{
             var args = JSON.parse(location.hash.slice(1));
+            $('#searchbar input[type="text"]').val(args.q);
             new_search(args.q,args.kv);
         }
     }
@@ -362,4 +363,3 @@ $.ajax({
     context:m,
     success:m.update_autocomplete_dict
 });
-console.log(location.hash);

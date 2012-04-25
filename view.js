@@ -104,6 +104,8 @@ View.prototype.draw_grid = function(item_list){
     html += '</div></ul>';
     if (item_list.length >= 50)
         html += '<button id="morebutton" class="btn btn-large span9">See more</button>';
+    if (item_list.length == 0)
+        html = '<div style="text-align:center;">No matching items!</div>';
     $('#results').html(html);
 	document.getElementById('loading').style.display = 'none';
 }
