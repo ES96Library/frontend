@@ -168,27 +168,31 @@ bind_ui = function(){
 
 
     //bind more button for pagination
-    $('#morebutton').click(function(){
-        var url = 'http://hollre.com/items/search.json';
-        var method = 'POST';
-        if (m.query.length == 0 && m.current.length == 0){
-            url = 'http://hollre.com/items.json';
-            method = 'GET';
-        }
-        var search_json = m.search(m.query,m.current,m.page+1);
-        $.ajax({
-            type:method,
-            url:url,
-            dataType:"json",
-            data: search_json,
-            context:m,
-            success:function(data){
-                m.addpage(data);
-                v.draw_grid(m.get_items());
-                bind_grid_ui();
-            },
+    bind_more_button = function(){
+        $('#morebutton').click(function(){
+            var url = 'http://hollre.com/items/search.json';
+            var method = 'POST';
+            if (m.query.length == 0 && m.current.length == 0){
+                url = 'http://hollre.com/items.json';
+                method = 'GET';
+            }
+            var search_json = m.search(m.query,m.current,m.page+1);
+            $.ajax({
+                type:method,
+                url:url,
+                dataType:"json",
+                data: search_json,
+                context:m,
+                success:function(data){
+                    m.addpage(data);
+                    v.draw_grid(m.get_items());
+                    init_toolbar();
+                    bind_more_button();
+                },
+            });
         });
-    });
+    };
+    bind_more_button();
 
 }
 show_edit_modal = function(){
