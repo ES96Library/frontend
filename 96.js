@@ -272,14 +272,11 @@ show_edit_modal = function(){
 		}
 		
 		html += '</table>';
-				
-			//html += '<h5>'+ index +'</h5><textarea class="metadataform" name="'+index+'" rows="2" cols="80" style="  border:none;border-color:transparent;outline:none;">'+itm.metadata[index]+'</textarea>';
 
 		html += '</form></div></div>';
 		html += '<div class="modal-footer">';
 		html += '<a href="#" class="btn new_field">New Field</a>';
 		html += '<a href="#" class="btn btn-primary submit_edit" type="Submit">Save changes</a></div></div>';
-		//$.colorbox({html:html,width:maxwidth});
 		$.colorbox({html:html});
 
 

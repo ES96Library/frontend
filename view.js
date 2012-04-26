@@ -28,6 +28,7 @@ View.prototype.draw_filters = function(filters){
 
     for (var k in suggested) {
         html += '<li class="nav-header">' + k + '</li>';
+        
 
         for(var v in suggested[k]) {
             html += '<li><a facetkey="'+k+'" facetval="'+v+'">' + v + ' (' + suggested[k][v] + ')</a></li>';
