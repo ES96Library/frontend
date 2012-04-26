@@ -25,11 +25,13 @@ new_search = function(query,kv_array){
         dataType:"json",
         data: search_json,
         context:m,
-        success:update_page,
+        success:function(data){
+            m.current = kv_array;
+            update_page(data);
+            location.hash = JSON.stringify({q:query,kv:kv_array});
+        },
         failure:init_with_everything
     });
-    location.hash = JSON.stringify({q:query,kv:kv_array});
-    m.current = kv_array;
 };
 submit_edit = function(){
 //    var data = m.edit(itm);
@@ -306,6 +308,8 @@ show_edit_modal = function(){
                     }
                 }
             });
+
+            setTimeout('location.reload()',1000);
             //new_search(m.current);
         });
 		
@@ -449,6 +453,7 @@ show_multi_edit_modal = function(){
             }
         }
         });
+        setTimeout('location.reload()',1000);
     });
 
     // on click of the new field button, add boxes to input new fields
