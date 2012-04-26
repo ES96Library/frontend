@@ -9,7 +9,6 @@ body{
   overflow:auto;
   resize:none;
 }
-
 .metadataform:focus{
   border:none;
   border-color:transparent;
@@ -29,37 +28,42 @@ padding-top:5px;
   cursor:default;
 }
 
-
 .key{
   height:20px;
   width:75px;
 }
 
-
 .thumbnail{
   border: 1px inset;
   margin: 1px;
 }
-
-
 .thumbnail:hover{
   cursor:pointer;
   border: 2px inset rgba(0, 178, 238, .5);
   margin:0px;
+}
+.selected_thumbnail{
+  background-color:#afa;
 }
 
 #colorbox .btn-mini{
 	margin:5px;
 }
 
-
-
 #modaltable{
 	background-color:#fff;
 }
 
-
 .imageholder{
   float:left;
   overflow:auto;
+}
+
+#toolbar{
+  padding:5px;
+  background:#eee;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  position:fixed;
+  bottom:0;
 }

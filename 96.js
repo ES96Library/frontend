@@ -128,10 +128,43 @@ bind_ui = function(){
         nextsearch.push([newkey,newval]);
         new_search(m.query,nextsearch);
     });
-    bind_grid_ui();
-}
-bind_grid_ui = function(){
-    //When you click on the more button, next page loads
+
+    //draw and bind toolbar
+    position_toolbar = function(){
+        $('#toolbar').css('right',$(window).width()/2 - 940/2 + 'px');
+    }
+    position_toolbar();
+    $(window).resize(position_toolbar);
+    init_toolbar = function(){
+        var tbhtml = '<button class="btn" id="eselect">Edit Multiple</button>';
+        $('#toolbar').html(tbhtml);
+        $('#eselect').click(activate_toolbar);
+
+        var thumbs = $('#results [item]');
+        thumbs.unbind().click(show_edit_modal);
+        thumbs.find('.thumbnail').unbind().removeClass('selected_thumbnail');
+    };
+    activate_toolbar = function(){
+        var tbhtml = '<button class="btn" id="ecancel">Cancel</button><button class="btn btn-success disabled" id="eedit">Click on items to select them</button>';
+        $('#toolbar').html(tbhtml);
+        $('#ecancel').click(init_toolbar);
+
+        $('#results [item]').unbind().find('.thumbnail').click(function(){
+            $(this).toggleClass('selected_thumbnail');
+            var num_selected = $('.selected_thumbnail').length;
+            if (num_selected == 1){
+                $('#eedit').removeClass('disabled').html('Edit Selected Items (1)').click(show_multi_edit_modal);
+            } else if (num_selected > 1) {
+                $('#eedit').html('Edit Selected Items ('+num_selected+')');
+            } else {
+                $('#eedit').addClass('disabled').html('Click on items to select them').unbind();
+            }
+        });
+    }
+    init_toolbar();
+
+
+    //bind more button for pagination
     $('#morebutton').click(function(){
         var url = 'http://hollre.com/items/search.json';
         var method = 'POST';
@@ -154,12 +187,8 @@ bind_grid_ui = function(){
         });
     });
 
-    //When you click on an item in the results pane, show the edit modal for that item
-    $('#results [item]').click(show_edit_modal);
-};
+}
 show_edit_modal = function(){
-			
-
 	var i = $(this).attr('item');
     var iid = $(this).attr('iid');
 	var item_list = m.get_items();
@@ -295,7 +324,6 @@ show_edit_modal = function(){
         $('#colorbox .next-btn').click(function(){
 			var n= parseInt($(thumbnail).attr('item'))+1;
 			var item = ($('[item="'+n+'"]'));
-			console.log(item);
 			show_edit_modal.call($('[item="'+n+'"]'));
         });
 
@@ -303,13 +331,7 @@ show_edit_modal = function(){
         $('#colorbox .previous-btn').click(function(){
 			var n= parseInt($(thumbnail).attr('item'))-1;
 			var item = ($('[item="'+n+'"]'));
-			console.log(item);
 			show_edit_modal.call($('[item="'+n+'"]'));
-
-
-			
-			
-			
         });
         
         // reset modal edit boxes to original size while they are not being edited
@@ -333,11 +355,109 @@ show_edit_modal = function(){
 			
 	var modalwidth = $('#colorbox').width();
     modalwidth += 50;
-    console.log(modalwidth);
-    console.log($('#colorbox').width());
     $.colorbox.resize({width:modalwidth});
 };
+show_multi_edit_modal = function(){
+    var selected = $('.selected_thumbnail').closest('[item]');
+    var iids = []
+    var item_list = m.get_items();
+    var fields = {};
+    for (var i=0;i<selected.length;i++){
+        var itm = item_list[$(selected[i]).attr('item')];
+        iids.push($(selected[i]).attr('iid'));
+        console.log(itm.metadata);
+        for (var key in itm.metadata){
+            var val = itm.metadata[key]
+            if (key in fields)
+                fields[key].push(val);
+            else
+                fields[key] = [val];
+        }
+    }
 
+    html = '<div style="background:#fff;">'
+
+
+    //metadata inside a form to allow updating
+    html += '<form name="update">';
+
+    //metadata name and value in different columns of a table
+    html += '<table id="mdtable" border="0">';
+
+    html += '<tr>';
+    html += '<td><center>Property Name</center></td>';
+    html += '<td>Current Values</td>';
+    html += '<td>Add to All</td>';
+    html += '<td>Delete Existing</td>';
+    html += '</tr>';
+
+    // loop through metadata, adding all available information
+    for (var index in fields){
+        html += '<tr>';
+        html += '<td><center><h5>'+ index +':&nbsp&nbsp</h5></center></td>';
+        html += '<td style="max-width:600px">'+fields[index]+'</td>';
+        html += '<td><textarea class="metadataform val" name="'+index+'" rows="1"></textarea></td>';
+        html += '<td><input type="checkbox"></td>';
+        html += '</tr>';
+    }
+
+    html += '</table>';
+
+    html += '</form>';
+    html += '<div class="modal-footer">';
+    html += '<a href="#" class="btn new_field">New Field</a>';
+    html += '<a href="#" class="btn btn-primary submit_edit" type="Submit">Save changes</a></div></div>';
+    $.colorbox({html:html});
+
+    $('#colorbox textarea').each(function(){
+        var name = $(this).attr('name');
+        $(this).typeahead({
+            source:m.autocomplete_dict[name],
+            mode:'multiple'
+        });
+    });
+
+    // on click of submit button, submit metadata
+    $('#colorbox .submit_edit').click(function(){
+        //destroy_item_values(iid);
+        var fields = $('#colorbox textarea.val');
+        fields.each(function(){
+            var vals = $(this).val().split(',');
+            var prop_name = $(this).attr('name');
+            if (prop_name.length == 0)
+            prop_name = $(this).closest('tr').find('textarea.key').val();
+        for (var i in vals){
+            if (vals[i].length > 0){
+                for (var j in iids){
+                    var iid = iids[j];
+                    console.log([iid,prop_name,vals[i]]);
+                    add_value(iid,prop_name,vals[i]);
+                }
+            }
+        }
+        });
+    });
+
+    // on click of the new field button, add boxes to input new fields
+    $('#colorbox .new_field').click(function(){
+        html = '<tr><td><textarea class="key metadataform" rows="1"></textarea></td><td></td><td><textarea class="val metadataform" rows="1" name=""></textarea></td><td></td></tr>';
+        $('#mdtable').append(html);
+
+        var modalheight = $('#colorbox').height();
+        modalheight += 50;
+        $.colorbox.resize({height:modalheight});
+        $('.key').focus();
+    });
+    // reset modal edit boxes to original size while they are not being edited
+    $("textarea").blur(function(){
+        $(this).attr('rows','1');
+    });
+    // on focus, expand modal edit box to show all the text it contains
+    $("textarea").focus(function(){
+        rownumber = Math.ceil(($(this).val().length)/30);
+        $(this).attr('rows',rownumber);
+    });
+}
 
 m = new Model();
 v = new View();
