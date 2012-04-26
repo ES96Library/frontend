@@ -73,32 +73,10 @@ View.prototype.draw_grid = function(item_list){
        		html += '<div data-toggle="modal" item="'+i+'" iid="'+item_list[i].id+'" >';
       		html += '<li class="span'+ this.gridcolumns + '"><div class="thumbnail"><img src="' + img + '" alt=""><h6>'+item_list[i].metadata['Author']+'</h6>'+item_list[i].metadata['Title']+'</div></li></div>';
         	
+        	
         	//increment variable counting thumbnails per row
         	counter++;
 
-
-
-
-
-            /*	
-                html+= '<div class="modal hide fade" id="myModal'+i+'" style="width:700px;margin-left=-350px">'
-                html += '<div class="modal-header">'
-                html += '<a class="close" data-dismiss="modal">×</a>'
-
-            //begin modal content
-            html += '<img src="' + img + '"id=myimg'+i+' style="max-width:800px;max-height:400px;"></img></div>'
-            html += '<div class="modal-body">'
-
-            // loop through metadata, adding all available information
-            for (var index in item_list[i].metadata){
-            html += '<h5>'+ index +'</h5><p>'+item_list[i].metadata[index]+'</p>'
-            }
-
-            html += '</div>'
-            html += '<div class="modal-footer">'
-            html += '<a href="#" class="btn">Close</a>'
-            html += '<a href="#" class="btn btn-primary">Save changes</a></div></div>'
-            */
 
     }
     //close the last row div and the unordered list of the thumbnails
