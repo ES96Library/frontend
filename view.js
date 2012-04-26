@@ -44,7 +44,7 @@ View.prototype.draw_filters = function(filters){
 View.prototype.draw_grid = function(item_list){
     //uses return of m.get_items()
 
-    var html = '<ul class="thumbnails"><div class="row">';
+    var html = '<ul class="thumbnails"><div class="gridrow">';
     var metadata = '';
     var counter = 0;
 
@@ -64,7 +64,7 @@ View.prototype.draw_grid = function(item_list){
 			html += '</div>';
 			counter = 0;
 			//open a new row div
-			html += '<div class="row">';
+			html += '<div class="gridrow">';
 		}
 
 		
