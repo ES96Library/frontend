@@ -36,7 +36,6 @@ padding-top:5px;
 .thumbnail{
   border: 1px inset;
   margin: 1px;
-  margin-bottom:15px;
 }
 .thumbnail:hover{
   cursor:pointer;
@@ -71,4 +70,5 @@ padding-top:5px;
 
 .gridrow{
   clear:both;
+  padding-top:15px;
 }
