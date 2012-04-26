@@ -19,7 +19,7 @@ function Model(){
     this.prop_id_dict = {};
     this.autocomplete_dict = {};
     this.value_id_dict = {};
-
+    this.pv_index = {};
 
 }
 Model.prototype.get_items = function() {
@@ -88,6 +88,16 @@ Model.prototype.parse = function(json){
                 this.value_id_dict[item_id].push(vid);
             else
                 this.value_id_dict[item_id] = [vid];
+            if (k in this.pv_index){
+                if (item_id in this.pv_index[k]){
+                    this.pv_index[k][item_id].push(vid);
+                } else {
+                    this.pv_index[k][item_id] = [vid];
+                }
+            }else{
+                this.pv_index[k] = {};
+                this.pv_index[k][item_id] = [vid];
+            }
             if (k in new_metadata)
                 new_metadata[k].push(v);
             else

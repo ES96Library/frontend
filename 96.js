@@ -91,6 +91,7 @@ add_value = function(item_id, prop_name, val){
     */
 };
 destroy_value = function(id){
+    console.log('destroyed value '+id);
     $.ajax({
         type: 'DELETE',
         url:'http://hollre.com/values/'+id+'.json',
@@ -397,7 +398,7 @@ show_multi_edit_modal = function(){
         html += '<td><center><h5>'+ index +':&nbsp&nbsp</h5></center></td>';
         html += '<td style="max-width:600px">'+fields[index]+'</td>';
         html += '<td><textarea class="metadataform val" name="'+index+'" rows="1"></textarea></td>';
-        html += '<td><input type="checkbox"></td>';
+        html += '<td><input type="checkbox" pname="'+index+'"></td>';
         html += '</tr>';
     }
 
@@ -420,6 +421,18 @@ show_multi_edit_modal = function(){
     // on click of submit button, submit metadata
     $('#colorbox .submit_edit').click(function(){
         //destroy_item_values(iid);
+        var checks = $('#colorbox input[type="checkbox"]');
+        checks.each(function(){
+            if($(this).is(':checked')){
+                var pname = $(this).attr('pname');
+                for (var i in iids){
+                    to_destroy = m.pv_index[pname][iids[i]];
+                    for (var j in to_destroy){
+                        destroy_value(to_destroy[j]);
+                    }
+                }
+            }
+        });
         var fields = $('#colorbox textarea.val');
         fields.each(function(){
             var vals = $(this).val().split(',');
