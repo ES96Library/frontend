@@ -16,14 +16,14 @@ body{
   overflow:auto;
   resize:vertical;
 }
-
+/*
 .myimg{
 padding-left:15px;
 padding-right:15px;
 padding-bottom:15px;
 padding-top:5px;
 }
-
+*/
 .myimglink{
   cursor:default;
 }
@@ -31,6 +31,9 @@ padding-top:5px;
 .key{
   height:20px;
   width:75px;
+}
+.keycell{
+  width:85px;
 }
 
 .thumbnail{

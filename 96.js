@@ -216,28 +216,6 @@ show_edit_modal = function(){
 	var image1 = new Image();
 	image1.onload = function() {
 	
-		//determine appropriate height and width for the modal
-		var maxheight = $(window).height();
-		var maxwidth = $(window).width();
-	
-		maxheight = Math.floor(.85*maxheight);
-		maxwidth = Math.floor(.7*maxwidth);
-		
-		var width = maxwidth;
-		var height = maxheight;
-
-		if(Math.floor(1.1*this.width) > maxwidth){
-			width = maxwidth - 100;}
-		else {
-			width = Math.floor(1.1*this.width);
-		}
-		
-		if(Math.floor(1.1*this.height) > maxheight){
-			height = maxheight;}
-		else {
-			height = Math.floor(1.1*this.height+30);
-		}
-
 	
 		//begin modal content
 		
@@ -268,7 +246,7 @@ show_edit_modal = function(){
 		// loop through metadata, adding all available information
 		for (var index in itm.metadata){
 				html += '<tr>';
-				html += '<td><center><h5>'+ index +':&nbsp&nbsp</h5></center></td>';
+				html += '<td class="keycell"><center><h5>'+ index +':&nbsp&nbsp</h5></center></td>';
 
 				html += '<td><textarea class="metadataform val" name="'+index+'" rows="1">'+itm.metadata[index]+'</textarea></td>';
 				html += '</tr>';
@@ -279,8 +257,8 @@ show_edit_modal = function(){
 
 		html += '</form></div></div>';
 		html += '<div class="modal-footer">';
-		html += '<a href="#" class="btn new_field">New Field</a>';
-		html += '<a href="#" class="btn btn-primary submit_edit" type="Submit">Save changes</a></div></div>';
+		html += '<a class="btn new_field">New Field</a>';
+		html += '<a class="btn btn-primary submit_edit" type="Submit">Save changes</a></div></div>';
 		$.colorbox({html:html});
 
 
@@ -319,9 +297,9 @@ show_edit_modal = function(){
             html = '<tr><td><textarea class="key metadataform" rows="1"></textarea></td><td><textarea class="val metadataform" rows="1" name=""></textarea></td></tr>';
             $('#mdtable').append(html);
             
-            var modalheight = $('#colorbox').height();
-            modalheight += 50;
-            $.colorbox.resize({height:modalheight});
+            //var modalheight = $('#colorbox').height();
+            //modalheight += 50;
+            //$.colorbox.resize({height:modalheight});
             $('.key').focus();
         });
 
@@ -357,11 +335,7 @@ show_edit_modal = function(){
 
     }
 	image1.src = img;
-	
 			
-	var modalwidth = $('#colorbox').width();
-    modalwidth += 50;
-    $.colorbox.resize({width:modalwidth});
 };
 show_multi_edit_modal = function(){
     var selected = $('.selected_thumbnail').closest('[item]');
@@ -388,7 +362,7 @@ show_multi_edit_modal = function(){
     html += '<form name="update">';
 
     //metadata name and value in different columns of a table
-    html += '<table id="mdtable" border="0">';
+    html += '<table id="mdtable" border="0" style="width:310px;">';
 
     html += '<tr>';
     html += '<td><center>Property Name</center></td>';
