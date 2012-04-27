@@ -44,6 +44,13 @@ View.prototype.draw_filters = function(filters){
 View.prototype.draw_grid = function(item_list){
     //uses return of m.get_items()
 
+    var selected = $('.selected_thumbnail').closest('[item]');
+    var iids = []
+    var fields = {};
+    for (var i=0;i<selected.length;i++){
+        iids.push($(selected[i]).attr('iid'));
+    }
+
     var html = '<ul class="thumbnails"><div class="gridrow">';
     var metadata = '';
     var counter = 0;
@@ -87,6 +94,13 @@ View.prototype.draw_grid = function(item_list){
         html = '<div style="text-align:center;">No matching items!</div>';
     $('#results').html(html);
 	document.getElementById('loading').style.display = 'none';
+
+
+    //reapply selected class
+    for (i in iids){
+        console.log(iids[i]);
+        console.log($('[iid="'+iids[i]+'"]').find('.thumbnail').addClass('selected_thumbnail'));
+    }
 }
 View.prototype.draw_list = function(item_list){
     //uses return of m.get_items()

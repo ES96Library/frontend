@@ -159,6 +159,10 @@ bind_ui = function(){
         var tbhtml = '<button class="btn" id="ecancel">Cancel</button><button class="btn btn-success disabled" id="eedit">Click on items to select them</button>';
         $('#toolbar').html(tbhtml);
         $('#ecancel').click(init_toolbar);
+        var num_selected = $('.selected_thumbnail').length;
+        if (num_selected >= 1){
+            $('#eedit').removeClass('disabled').html('Edit Selected Items ('+num_selected+')').click(show_multi_edit_modal);
+        }
 
         $('#results [item]').unbind().find('.thumbnail').click(function(){
             $(this).toggleClass('selected_thumbnail');
@@ -194,7 +198,10 @@ bind_ui = function(){
                 success:function(data){
                     m.addpage(data);
                     v.draw_grid(m.get_items());
-                    init_toolbar();
+                    if($('#eselect').length == 1)
+                        init_toolbar();
+                    else
+                        activate_toolbar();
                     bind_more_button();
                 },
             });
@@ -284,7 +291,6 @@ show_edit_modal = function(){
             console.log(iid);
             destroy_item_values(iid);
             var fields = $('#colorbox textarea.val');
-            var count = fields.length;
             fields.each(function(){
                 var vals = $(this).val().split(',');
                 var prop_name = $(this).attr('name');
