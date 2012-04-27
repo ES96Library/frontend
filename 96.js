@@ -1,5 +1,4 @@
 
-//If there's a search string in the url, set loading graphics, populate model with that search string and then draw 
 
 update_page = function(data){
     m.update(data);
@@ -57,6 +56,7 @@ submit_edit = function(){
         context:m,
     });
 };
+var activeConnections = 0;
 add_value = function(item_id, prop_name, val){
     var data = {"item":{
         "values_attributes":{
@@ -70,12 +70,13 @@ add_value = function(item_id, prop_name, val){
     },
         "id":item_id
     };
+    activeConnections += 1;
     $.ajax({
         type: 'PUT',
         url:'http://hollre.com/items/'+item_id+'.json',
         dataType:"json",
         data: data,
-        context:m,
+        complete: reload_if_done,
     });
     /*
     var data = {"value":{
@@ -94,10 +95,17 @@ add_value = function(item_id, prop_name, val){
 };
 destroy_value = function(id){
     console.log('destroyed value '+id);
+    activeConnections += 1;
     $.ajax({
         type: 'DELETE',
         url:'http://hollre.com/values/'+id+'.json',
+        complete: reload_if_done,
     });
+};
+reload_if_done = function(){
+    activeConnections -= 1;
+    if (activeConnections == 0)
+        location.reload();
 };
 destroy_item_values = function(item_id){
     var vids = m.value_id_dict[item_id];
@@ -272,9 +280,11 @@ show_edit_modal = function(){
 
 		// on click of submit button, submit metadata
         $('#colorbox .submit_edit').click(function(){
+            $(this).unbind().html('Saving...').addClass('disabled');
             console.log(iid);
             destroy_item_values(iid);
             var fields = $('#colorbox textarea.val');
+            var count = fields.length;
             fields.each(function(){
                 var vals = $(this).val().split(',');
                 var prop_name = $(this).attr('name');
@@ -288,7 +298,6 @@ show_edit_modal = function(){
                 }
             });
 
-            setTimeout('location.reload()',1000);
             //new_search(m.current);
         });
 		
@@ -428,7 +437,6 @@ show_multi_edit_modal = function(){
             }
         }
         });
-        setTimeout('location.reload()',1000);
     });
 
     // on click of the new field button, add boxes to input new fields
