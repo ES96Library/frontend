@@ -16,9 +16,9 @@ function Model(){
     this.suggested = {};
     this.page = 1;
     this.sort_by = '';
-    this.order = 'DESC';
+    this.order = 'ASC';
 
-    this.property_dict = {'':'Time Added'};
+    this.property_dict = {'':''};
     this.prop_id_dict = {};
     this.autocomplete_dict = {};
     this.value_id_dict = {};

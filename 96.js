@@ -26,14 +26,17 @@ init_with_everything = function(){
 };
 new_search = function(query,kv_array,page,sort_by,order){
     var search_json = m.search(query,kv_array,1,sort_by,order);
-    console.log(search_json);
+    //console.log(search_json);
     if (query.length == 0 && kv_array.length == 0){
         $.ajax({
             type: 'GET',
             url:'http://hollre.com/items.json',
             dataType:"json",
             data:{sort_by:sort_by,order:order},
-            success:update_page,
+            success:function(data){
+                update_page(data);
+                location.hash = JSON.stringify({q:query,kv:kv_array,p:page,sb:sort_by,so:order});
+            },
         });
         $.ajax({
             url:'http://hollre.com/values/filters.json',
@@ -164,11 +167,11 @@ bind_filters = function(){
     });
     print_sorts($("#sortdir"),{"ASC":"ASC","DESC":"DESC"},m.order);
     print_sorts($('#sortprop'),m.property_dict,m.sort_by);
-    $('#sortdir').change(function(){
+    $('#sortdir').unbind().change(function(){
         var sort = get_sort();
         new_search(m.query,m.current,1,sort.sort_by,sort.order);
     });
-    $('#sortprop').change(function(){
+    $('#sortprop').unbind().change(function(){
         var sort = get_sort();
         new_search(m.query,m.current,1,sort.sort_by,sort.order);
     });
@@ -177,9 +180,12 @@ print_sorts = function(obj,opts,sel){
     obj.html('');
     for (var key in opts){
         var s = '';
-        if (key == sel)
+        if (opts[key] == sel)
             s = ' selected="selected"';
-        obj.append('<option value="'+key+'"'+s+'>'+opts[key]+'</option>');
+        var t = opts[key];
+        if (t.length == 0)
+            t = 'Time Added';
+        obj.append('<option value="'+opts[key]+'"'+s+'>'+t+'</option>');
     }
 }
 
