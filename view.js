@@ -82,9 +82,86 @@ View.prototype.draw_grid = function(item_list){
 
        		//display the thumbnails
        		html += '<div data-toggle="modal" item="'+i+'" iid="'+item_list[i].id+'" >';
-      		html += '<li class="span'+ this.gridcolumns + '"><div class="thumbnail"><img src="' + img + '" alt=""><h6>'+item_list[i].metadata['Author']+'</h6>'+item_list[i].metadata['Title']+'</div></li></div>';
+      		html += '<li class="span'+ this.gridcolumns + '"><div class="thumbnail"><img src="' + img + '" alt="">';
+      		
+      		//if the item has an author, display the author
+      		if(item_list[i].metadata['Author']){
+      			html += '<h6>'+item_list[i].metadata['Author'] + '</h6>';
+      			
+      			//if the item also has a title, display that
+      			if(item_list[i].metadata['Title']){
+    				html += item_list[i].metadata['Title'];
+    			}
+    			else {
+    				//if no title is available, say 'no title'
+    				html += '<p>No Title</p>';
+    			}
+      		}
+      		else {
+    			//if no author is available, say 'no author'
+    			html += '<h6>No Author</h6>';
+				//if a title is available, display that
+      			if(item_list[i].metadata['Title']){
+    				html += item_list[i].metadata['Title'];
+    			}
+    			else {
+    				//if no title is available, say 'no title'
+    				html += '<p>No Title</p>';
+    			}
+    			
+    			
+    					/*
+      			//This code substitutes the author for a publisher, if available,
+      			// but looks too long for a thumbnail
+      			
+      			if(item_list[i].metadata['Publisher']) {
+      			  	html += '<h6>'+item_list[i].metadata['Publisher'] + '</h6>';
+      				if(item_list[i].metadata['Title']){
+    					html += '<p>' + item_list[i].metadata['Title'] + '</p>';
+    				}
+    				else {
+    					html += '<h6>No Author</h6>';
+    					if(item_list[i].metadata['Title']){
+    						html += '<p>' + item_list[i].metadata['Title'] + '</p>';
+    					}
+    					else {
+    						html += '<p>No Title</p>'
+    					}
+    			*/
+    			
+    			
+    			
+      			
+      		}
+
+      		html += '</div></li></div>';
         	
-        	
+        	/* 
+        	//display the thumbnails
+       		html += '<div data-toggle="modal" item="'+i+'" iid="'+item_list[i].id+'" >';
+      		html += '<li class="span'+ this.gridcolumns + '"><div class="thumbnail"><img src="' + img + '" alt="">';
+      		
+      		if(item_list[i].metadata['Author']) {
+      			html += '<h6>' + item_list[i].metadata['Author']+'</h6>';
+      			html += item_list[i].metadata['Title'];
+      			//console.log(item_list[i].metadata['Author']);
+      		}
+      		else {
+      			if(item_list[i].metadata['Publisher']) {
+      				html =+ '<h6>' + item_list[i].metadata['Publisher']+'</h6>';
+      				html += item_list[i].metadata['Title'];
+      				//console.log(item_list[i].metadata['Publisher']);
+				}
+				else {
+      				//console.log('3');					
+					html += '<h6>' + item_list[i].metadata['Title'] + '</h6>';
+				}
+			}
+			//console.log(item_list[i].metadata['Title'])
+			//html += '<h6>' + item_list[i].metadata['Title'] + '</h6>'
+      		html += '</div></li></div>';
+        
+        	*/
         	//increment variable counting thumbnails per row
         	counter++;
 
