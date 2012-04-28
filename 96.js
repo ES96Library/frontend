@@ -264,7 +264,15 @@ bind_grid_ui = function(){
     };
     bind_more_button();
 };
-
+array_to_string = function(arr){
+    out = '';
+    for (var i=0;i< arr.length;i++){
+        out += arr[i];
+        if (i+1 < arr.length)
+            out += '; ';
+    }
+    return out;
+}
 show_edit_modal = function(){
 	var i = $(this).attr('item');
     var iid = $(this).attr('iid');
@@ -318,7 +326,7 @@ show_edit_modal = function(){
 				html += '<tr>';
 				html += '<td class="keycell"><center><h5>'+ index +':&nbsp&nbsp</h5></center></td>';
 
-				html += '<td><textarea class="metadataform val" name="'+index+'" rows="1">'+itm.metadata[index]+'</textarea></td>';
+				html += '<td><textarea class="metadataform val" name="'+index+'" rows="1">'+array_to_string(itm.metadata[index])+'</textarea></td>';
 				html += '</tr>';
 				
 		}
@@ -332,11 +340,12 @@ show_edit_modal = function(){
 		$.colorbox({html:html});
 
 
-		$('#colorbox textarea').each(function(){
+		$('#colorbox textarea.val').each(function(){
 			var name = $(this).attr('name');
 			$(this).typeahead({
-				source:m.autocomplete_dict[name],
-				mode:'multiple'
+				source:Object.keys(m.autocomplete_dict[name]),
+				mode:'multiple',
+                delimiter:';',
 			});
 		});
 
@@ -347,7 +356,7 @@ show_edit_modal = function(){
             destroy_item_values(iid);
             var fields = $('#colorbox textarea.val');
             fields.each(function(){
-                var vals = $(this).val().split(',');
+                var vals = $(this).val().split(';');
                 var prop_name = $(this).attr('name');
                 if (prop_name.length == 0)
                     prop_name = $(this).closest('tr').find('textarea.key').val();
@@ -369,7 +378,15 @@ show_edit_modal = function(){
             //var modalheight = $('#colorbox').height();
             //modalheight += 50;
             //$.colorbox.resize({height:modalheight});
-            $('.key').focus();
+			$('.key').last().focus().change(function(){
+                $('#colorbox textarea.val').last().typeahead({
+                    source:Object.keys(m.autocomplete_dict[$(this).val()]),
+                    mode:'multiple',
+                    delimiter:';',
+                });
+            }).typeahead({
+				source:Object.keys(m.autocomplete_dict),
+			});
         });
 
         // next and previous button handler
@@ -453,11 +470,12 @@ show_multi_edit_modal = function(){
     html += '<a class="btn btn-primary submit_edit" type="Submit">Save changes</a></div></div>';
     $.colorbox({html:html});
 
-    $('#colorbox textarea').each(function(){
+    $('#colorbox textarea.val').each(function(){
         var name = $(this).attr('name');
         $(this).typeahead({
-            source:m.autocomplete_dict[name],
-            mode:'multiple'
+            source:Object.keys(m.autocomplete_dict[name]),
+            mode:'multiple',
+            delimiter:';',
         });
     });
 
@@ -478,7 +496,7 @@ show_multi_edit_modal = function(){
         });
         var fields = $('#colorbox textarea.val');
         fields.each(function(){
-            var vals = $(this).val().split(',');
+            var vals = $(this).val().split(';');
             var prop_name = $(this).attr('name');
             if (prop_name.length == 0)
             prop_name = $(this).closest('tr').find('textarea.key').val();
@@ -499,8 +517,16 @@ show_multi_edit_modal = function(){
         html = '<tr><td><textarea class="key metadataform" rows="1"></textarea></td><td></td><td><textarea class="val metadataform" rows="1" name=""></textarea></td><td></td></tr>';
         $('#mdtable').append(html);
 
-        $.colorbox.resize()
-        $('.key').focus();
+        $.colorbox.resize();
+        $('.key').last().focus().change(function(){
+            $('#colorbox textarea.val').last().typeahead({
+                source:Object.keys(m.autocomplete_dict[$(this).val()]),
+                mode:'multiple',
+                delimiter:';',
+            });
+        }).typeahead({
+            source:Object.keys(m.autocomplete_dict),
+        });
     });
     // reset modal edit boxes to original size while they are not being edited
     $("textarea").blur(function(){
@@ -510,6 +536,7 @@ show_multi_edit_modal = function(){
     $("textarea").focus(function(){
         rownumber = Math.ceil(($(this).val().length)/30);
         $(this).attr('rows',rownumber);
+        $.colorbox.resize();
     });
 }
 

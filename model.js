@@ -32,43 +32,6 @@ Model.prototype.get_items = function() {
     return this.item_list;
 }
 Model.prototype.get_filters = function(){
-    //returns filters in the format
-    //{ "current": [["key1","value1"],["key2","value2"]]
-    //  "suggested": key3:{value5:11,value6:1}, key2:{value7:9,value8:3} }
-
-    /*
-    var suggested = {};
-    for (var i in this.item_list){
-        var itm = this.item_list[i];
-        for (var k in itm.metadata){
-            for (vindex in itm.metadata[k]){
-                var v = itm.metadata[k][vindex];
-                if ($.inArray([k,v],this.current) == -1){
-                if (k in suggested){
-                    if (v in suggested[k])
-                        suggested[k][v] += 1;
-                    else
-                        suggested[k][v] = 1;
-                }
-                else{
-                    suggested[k] = {};
-                    suggested[k][v] = 1;
-                }
-                }
-            }
-        }
-    }
-
-    for (var k in suggested){
-        var max = 0;
-        for (var v in suggested[k]){
-            if (suggested[k][v] > max)
-                max = suggested[k][v];
-        }
-        //if (max <= 1 || Object.keys(suggested[k]).length <= 1)
-            //delete suggested[k];
-    }
-    */
     return {"current":this.current, "suggested":this.suggested};
 }
 Model.prototype.parse = function(json){
@@ -131,12 +94,18 @@ Model.prototype.update_filters = function(json){
 
         this.property_dict[kid] = key;
         this.prop_id_dict[key] = kid;
+        
+        if (!(key in this.autocomplete_dict))
+            this.autocomplete_dict[key] = {};
 
         out[key] = {};
         for (var j in ith.values){
             var jth = ith.values[j];
             var val = jth.name;
             var vid = ith.id;
+
+            this.autocomplete_dict[key][val] = true;
+
             if (val in out[key])
                 out[key][val] += 1;
             else
@@ -158,20 +127,12 @@ Model.prototype.update_autocomplete_dict = function(data){
     }
 }
 Model.prototype.search = function(q,facets,page,sortby,sortdir){
-    /* out = {};
-    for (var i in facets){
-        var facet = facets[i];
-        out = {"pair[][property_id]":this.property_dict[facet[0]],"pair[][value]":facet[1]};
-    }
-    */
-	
     this.page = page;
     out = {"page":page,"sort_by":sortby,"order":sortdir};
     if (facets.length > 0){
         out.pair = [];
         for (var i in facets){
             var facet = facets[i];
-            //out.pair.push({"property_id":this.property_dict[facet[0]],"value":facet[1]});
             out.pair.push({"property_name":facet[0],"value":facet[1]});
         }
     }
