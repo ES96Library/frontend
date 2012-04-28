@@ -400,8 +400,8 @@ show_multi_edit_modal = function(){
 
     html += '</form>';
     html += '<div class="modal-footer">';
-    html += '<a href="#" class="btn new_field">New Field</a>';
-    html += '<a href="#" class="btn btn-primary submit_edit" type="Submit">Save changes</a></div></div>';
+    html += '<a class="btn new_field">New Field</a>';
+    html += '<a class="btn btn-primary submit_edit" type="Submit">Save changes</a></div></div>';
     $.colorbox({html:html});
 
     $('#colorbox textarea').each(function(){
