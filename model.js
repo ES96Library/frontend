@@ -72,7 +72,7 @@ Model.prototype.get_filters = function(){
 Model.prototype.parse = function(json){
     //replaces the current item list with the one supplied here
 
-	//console.log(json);
+	console.log(json);
     var out = [];
 
     for (var i in json.item){

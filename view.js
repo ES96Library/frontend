@@ -29,9 +29,13 @@ View.prototype.draw_filters = function(filters){
     for (var k in suggested) {
         html += '<li class="nav-header">' + k + '</li>';
         
-
+        //only display the first 5 suggestions for each facet
+		counter = 0;
         for(var v in suggested[k]) {
+        	if(counter<=4) {
             html += '<li><a facetkey="'+k+'" facetval="'+v+'">' + v + ' (' + suggested[k][v] + ')</a></li>';
+        	counter++;
+        	}
         }
     }
     html += '</ul>';

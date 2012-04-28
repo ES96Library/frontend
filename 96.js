@@ -78,20 +78,8 @@ add_value = function(item_id, prop_name, val){
         data: data,
         complete: reload_if_done,
     });
-    /*
-    var data = {"value":{
-        "name":val,
-        "item_attributes":{"id":item_id},
-        "property_attributes":{"id":prop_id},
-    }};
-    $.ajax({
-        type: 'POST',
-        url:'http://hollre.com/values.json',
-        dataType:"json",
-        data: data,
-        context:m,
-    });
-    */
+
+
 };
 destroy_value = function(id){
     console.log('destroyed value '+id);
@@ -377,13 +365,13 @@ show_multi_edit_modal = function(){
     html += '<form name="update">';
 
     //metadata name and value in different columns of a table
-    html += '<table id="mdtable" border="0" style="width:310px;">';
+    html += '<table id="mdtable" border="0">';
 
     html += '<tr>';
-    html += '<td><center>Property Name</center></td>';
-    html += '<td>Current Values</td>';
-    html += '<td>Add to All</td>';
-    html += '<td>Delete Existing</td>';
+    html += '<td><center><h5>Property</h5></center></td>';
+    html += '<td><h5>Current Values</h5></td>';
+    html += '<td><h5>Add to All</h5></td>';
+    html += '<td><center><h5>Delete Existing</h5></center></td>';
     html += '</tr>';
 
     // loop through metadata, adding all available information
@@ -392,7 +380,7 @@ show_multi_edit_modal = function(){
         html += '<td><center><h5>'+ index +':&nbsp&nbsp</h5></center></td>';
         html += '<td style="max-width:600px">'+fields[index]+'</td>';
         html += '<td><textarea class="metadataform val" name="'+index+'" rows="1"></textarea></td>';
-        html += '<td><input type="checkbox" pname="'+index+'"></td>';
+        html += '<td><center><input type="checkbox" pname="'+index+'"></center></td>';
         html += '</tr>';
     }
 
@@ -450,9 +438,7 @@ show_multi_edit_modal = function(){
         html = '<tr><td><textarea class="key metadataform" rows="1"></textarea></td><td></td><td><textarea class="val metadataform" rows="1" name=""></textarea></td><td></td></tr>';
         $('#mdtable').append(html);
 
-        var modalheight = $('#colorbox').height();
-        modalheight += 50;
-        $.colorbox.resize({height:modalheight});
+        $.colorbox.resize()
         $('.key').focus();
     });
     // reset modal edit boxes to original size while they are not being edited
