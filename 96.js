@@ -24,32 +24,49 @@ init_with_everything = function(){
     m.current = [];
     location.hash = '';
 };
-new_search = function(query,kv_array){
-    var search_json = m.search(query,kv_array,1);
-    $.ajax({
-        type: 'POST',
-        url:'http://hollre.com/items/search.json',
-        dataType:"json",
-        data: search_json,
-        success:function(data){
-            update_page(data);
-            location.hash = JSON.stringify({q:query,kv:kv_array});
-        },
-        failure:init_with_everything
-    });
+new_search = function(query,kv_array,page,sort_by,order){
+    var search_json = m.search(query,kv_array,1,sort_by,order);
     console.log(search_json);
-    $.ajax({
-        type: 'POST',
-        url:'http://hollre.com/values/filters.json',
-        dataType:"json",
-        data: search_json,
-        success:update_filters,
-        failure:function(){
-            v.draw_filters(m.get_filters());
-            bind_filters();
-        }
-    });
+    if (query.length == 0 && kv_array.length == 0){
+        $.ajax({
+            type: 'GET',
+            url:'http://hollre.com/items.json',
+            dataType:"json",
+            data:{sort_by:sort_by,order:order},
+            success:update_page,
+        });
+        $.ajax({
+            url:'http://hollre.com/values/filters.json',
+            dataType:"json",
+            success:update_filters,
+        });
+    } else {
+        $.ajax({
+            type: 'POST',
+            url:'http://hollre.com/items/search.json',
+            dataType:"json",
+            data: search_json,
+            success:function(data){
+                update_page(data);
+                location.hash = JSON.stringify({q:query,kv:kv_array,p:page,sb:sort_by,so:order});
+            },
+            failure:init_with_everything
+        });
+        $.ajax({
+            type: 'POST',
+            url:'http://hollre.com/values/filters.json',
+            dataType:"json",
+            data: search_json,
+            success:update_filters,
+            failure:function(){
+                v.draw_filters(m.get_filters());
+                bind_filters();
+            }
+        });
+    }
     m.current = kv_array;
+    m.sort_by = sort_by;
+    m.order = order;
 };
 submit_edit = function(){
 //    var data = m.edit(itm);
@@ -124,7 +141,8 @@ destroy_item_values = function(item_id){
 
 bind_filters = function(){
     $('#searchbar').submit(function(){
-        new_search($('#searchbar input[type="text"]').val(),[],1);
+        var sort = get_sort();
+        new_search($('#searchbar input[type="text"]').val(),[],1,sort.sort_by,sort.order);
         return false;
     });
     //When you click the x button on a current filter, it calls m.search()
@@ -132,10 +150,8 @@ bind_filters = function(){
         var to_remove = $(this).attr('facet');
         var nextsearch = $.extend(true, [], m.current);
         nextsearch.splice(to_remove, 1);
-        if (nextsearch.length == 0)
-            init_with_everything();
-        else
-            new_search(m.query,nextsearch);
+        var sort = get_sort();
+        new_search(m.query,nextsearch,1,sort.sort_by,sort.order);
     });
     //When you click on a suggested filter, it calls m.search() 
     $('#facets li a').click(function(){
@@ -143,8 +159,35 @@ bind_filters = function(){
         var newval = $(this).attr('facetval');
         var nextsearch = $.extend(true, [], m.current);
         nextsearch.push([newkey,newval]);
-        new_search(m.query,nextsearch);
+        var sort = get_sort();
+        new_search(m.query,nextsearch,1,sort.sort_by,sort.order);
     });
+    print_sorts($("#sortdir"),{"ASC":"ASC","DESC":"DESC"},m.order);
+    print_sorts($('#sortprop'),m.property_dict,m.sort_by);
+    $('#sortdir').change(function(){
+        var sort = get_sort();
+        new_search(m.query,m.current,1,sort.sort_by,sort.order);
+    });
+    $('#sortprop').change(function(){
+        var sort = get_sort();
+        new_search(m.query,m.current,1,sort.sort_by,sort.order);
+    });
+};
+print_sorts = function(obj,opts,sel){
+    obj.html('');
+    for (var key in opts){
+        var s = '';
+        if (key == sel)
+            s = ' selected="selected"';
+        obj.append('<option value="'+key+'"'+s+'>'+opts[key]+'</option>');
+    }
+}
+
+get_sort = function(){
+    out = {};
+    out.order = $('#sortdir').find(':selected').val();
+    out.sort_by = $('#sortprop').find(':selected').val();
+    return out;
 };
 bind_grid_ui = function(){
     //draw and bind toolbar
@@ -242,8 +285,8 @@ show_edit_modal = function(){
 		
 		//next and previous buttons in a header
 		
-		html += '<a href="#" class="btn btn-mini previous-btn" type="Submit">Previous</a>';
-		html += '<a href="#" class="btn btn-mini next-btn" type="Submit" style="float:right;">Next</a>';
+		html += '<a class="btn btn-mini previous-btn" type="Submit">Previous</a>';
+		html += '<a class="btn btn-mini next-btn" type="Submit" style="float:right;">Next</a>';
         
         
         html += '<table id="modaltable">';
@@ -310,7 +353,6 @@ show_edit_modal = function(){
                 }
             });
 
-            //new_search(m.current);
         });
 		
 		// on click of the new field button, add boxes to input new fields
@@ -350,10 +392,6 @@ show_edit_modal = function(){
     		$(this).attr('rows',rownumber);
   		});
   		
-  		
-  		
-  		
-
     }
 	image1.src = img;
 			
@@ -366,7 +404,6 @@ show_multi_edit_modal = function(){
     for (var i=0;i<selected.length;i++){
         var itm = item_list[$(selected[i]).attr('item')];
         iids.push($(selected[i]).attr('iid'));
-        console.log(itm.metadata);
         for (var key in itm.metadata){
             var val = itm.metadata[key]
             if (key in fields)
@@ -472,33 +509,11 @@ show_multi_edit_modal = function(){
 
 m = new Model();
 v = new View();
-/*
-$.ajax({
-    url:'http://hollre.com/properties.json',
-    dataType:"json",
-    context:m,
-    success:m.update_properties,
-    complete:function(){
-        if (location.hash.length == 0){
-            init_with_everything();
-        }else{
-            var args = JSON.parse(location.hash.slice(1));
-            $('#searchbar input[type="text"]').val(args.q);
-            new_search(args.q,args.kv);
-        }
-    }
-});
-$.ajax({
-    url:'http://hollre.com/values.json',
-    dataType:"json",
-    context:m,
-    success:m.update_autocomplete_dict
-});
-*/
+
 if (location.hash.length == 0){
     init_with_everything();
 }else{
     var args = JSON.parse(location.hash.slice(1));
     $('#searchbar input[type="text"]').val(args.q);
-    new_search(args.q,args.kv);
+    new_search(args.q,args.kv,args.p,args.sb,args.so);
 }

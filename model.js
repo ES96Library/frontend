@@ -15,8 +15,10 @@ function Model(){
     this.current = [];
     this.suggested = {};
     this.page = 1;
+    this.sort_by = '';
+    this.order = 'DESC';
 
-    this.property_dict = {};
+    this.property_dict = {'':'Time Added'};
     this.prop_id_dict = {};
     this.autocomplete_dict = {};
     this.value_id_dict = {};
@@ -72,7 +74,7 @@ Model.prototype.get_filters = function(){
 Model.prototype.parse = function(json){
     //replaces the current item list with the one supplied here
 
-	console.log(json);
+	//console.log(json);
     var out = [];
 
     for (var i in json.item){
@@ -119,15 +121,22 @@ Model.prototype.addpage = function(json){
 Model.prototype.update_filters = function(json){
     //store suggested in format
     //{key1:{val1:3,val2:2},key2:{val3:4,val4:1,val5:7}}
+    //console.log(json);
     var out = {}
 
     for (var i in json){
         var ith = json[i];
         var key = ith.name;
+        var kid = ith.id;
+
+        this.property_dict[kid] = key;
+        this.prop_id_dict[key] = kid;
+
         out[key] = {};
         for (var j in ith.values){
             var jth = ith.values[j];
             var val = jth.name;
+            var vid = ith.id;
             if (val in out[key])
                 out[key][val] += 1;
             else
@@ -137,18 +146,6 @@ Model.prototype.update_filters = function(json){
 
     this.suggested = out;
 
-}
-Model.prototype.update_properties = function(json){
-    var out = {};
-    var out2 = {};
-
-    for (var i in json){
-        out[json[i].name] = json[i].id;
-        out2[json[i].id] = json[i].name;
-    }
-
-    this.property_dict = out;
-    this.prop_id_dict = out2;
 }
 Model.prototype.update_autocomplete_dict = function(data){
     for (var i in data){
@@ -160,7 +157,7 @@ Model.prototype.update_autocomplete_dict = function(data){
             this.autocomplete_dict[key] = [val.name];
     }
 }
-Model.prototype.search = function(q,facets,page){
+Model.prototype.search = function(q,facets,page,sortby,sortdir){
     /* out = {};
     for (var i in facets){
         var facet = facets[i];
@@ -169,7 +166,7 @@ Model.prototype.search = function(q,facets,page){
     */
 	
     this.page = page;
-    out = {"page":page};
+    out = {"page":page,"sort_by":sortby,"order":sortdir};
     if (facets.length > 0){
         out.pair = [];
         for (var i in facets){
