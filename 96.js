@@ -2,16 +2,24 @@
 
 update_page = function(data){
     m.update(data);
-    v.draw_filters(m.get_filters());
     v.draw_grid(m.get_items());
-    bind_ui();
+    bind_grid_ui();
 };
+update_filters = function(data){
+    m.update_filters(data);
+    v.draw_filters(m.get_filters());
+    bind_filters();
+}
 init_with_everything = function(){
     $.ajax({
         url:'http://hollre.com/items.json',
         dataType:"json",
-        context:m,
         success:update_page,
+    });
+    $.ajax({
+        url:'http://hollre.com/values/filters.json',
+        dataType:"json",
+        success:update_filters,
     });
     m.current = [];
     location.hash = '';
@@ -23,14 +31,25 @@ new_search = function(query,kv_array){
         url:'http://hollre.com/items/search.json',
         dataType:"json",
         data: search_json,
-        context:m,
         success:function(data){
-            m.current = kv_array;
             update_page(data);
             location.hash = JSON.stringify({q:query,kv:kv_array});
         },
         failure:init_with_everything
     });
+    console.log(search_json);
+    $.ajax({
+        type: 'POST',
+        url:'http://hollre.com/values/filters.json',
+        dataType:"json",
+        data: search_json,
+        success:update_filters,
+        failure:function(){
+            v.draw_filters(m.get_filters());
+            bind_filters();
+        }
+    });
+    m.current = kv_array;
 };
 submit_edit = function(){
 //    var data = m.edit(itm);
@@ -103,8 +122,7 @@ destroy_item_values = function(item_id){
     }
 };
 
-bind_ui = function(){
-    //Bind all our UI buttons...
+bind_filters = function(){
     $('#searchbar').submit(function(){
         new_search($('#searchbar input[type="text"]').val(),[],1);
         return false;
@@ -127,7 +145,8 @@ bind_ui = function(){
         nextsearch.push([newkey,newval]);
         new_search(m.query,nextsearch);
     });
-
+};
+bind_grid_ui = function(){
     //draw and bind toolbar
     position_toolbar = function(){
         $('#toolbar').css('right',$(window).width()/2 - 940/2 + 'px');
@@ -166,7 +185,6 @@ bind_ui = function(){
     }
     init_toolbar();
 
-
     //bind more button for pagination
     bind_more_button = function(){
         $('#morebutton').click(function(){
@@ -196,8 +214,8 @@ bind_ui = function(){
         });
     };
     bind_more_button();
+};
 
-}
 show_edit_modal = function(){
 	var i = $(this).attr('item');
     var iid = $(this).attr('iid');
@@ -454,7 +472,7 @@ show_multi_edit_modal = function(){
 
 m = new Model();
 v = new View();
-
+/*
 $.ajax({
     url:'http://hollre.com/properties.json',
     dataType:"json",
@@ -476,3 +494,11 @@ $.ajax({
     context:m,
     success:m.update_autocomplete_dict
 });
+*/
+if (location.hash.length == 0){
+    init_with_everything();
+}else{
+    var args = JSON.parse(location.hash.slice(1));
+    $('#searchbar input[type="text"]').val(args.q);
+    new_search(args.q,args.kv);
+}

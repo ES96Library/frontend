@@ -13,6 +13,7 @@ function Model(){
     this.item_list = [];
     this.query = '';
     this.current = [];
+    this.suggested = {};
     this.page = 1;
 
     this.property_dict = {};
@@ -33,6 +34,7 @@ Model.prototype.get_filters = function(){
     //{ "current": [["key1","value1"],["key2","value2"]]
     //  "suggested": key3:{value5:11,value6:1}, key2:{value7:9,value8:3} }
 
+    /*
     var suggested = {};
     for (var i in this.item_list){
         var itm = this.item_list[i];
@@ -64,10 +66,8 @@ Model.prototype.get_filters = function(){
         //if (max <= 1 || Object.keys(suggested[k]).length <= 1)
             //delete suggested[k];
     }
-
-    return {"current":this.current, "suggested":suggested};
-//    return { "current": [["Collection","World's Greatest Library Special Collection"],["Author","Thomas Edison"],["Author","Michael Jordan"]], "suggested": {"Author":["Theodore Roosevelt","John Muir","Susan B. Anthony","Herbert Hoover"], "Location":["Los Angeles","Abu Dhabi","Chicago"], "Type":["Letter","Book","Dunk Footage"] }};
-
+    */
+    return {"current":this.current, "suggested":this.suggested};
 }
 Model.prototype.parse = function(json){
     //replaces the current item list with the one supplied here
@@ -116,6 +116,28 @@ Model.prototype.addpage = function(json){
     var new_items = this.parse(json);
     $.merge(this.item_list,new_items);
 }
+Model.prototype.update_filters = function(json){
+    //store suggested in format
+    //{key1:{val1:3,val2:2},key2:{val3:4,val4:1,val5:7}}
+    var out = {}
+
+    for (var i in json){
+        var ith = json[i];
+        var key = ith.name;
+        out[key] = {};
+        for (var j in ith.values){
+            var jth = ith.values[j];
+            var val = jth.name;
+            if (val in out[key])
+                out[key][val] += 1;
+            else
+                out[key][val] = 1;
+        }
+    }
+
+    this.suggested = out;
+
+}
 Model.prototype.update_properties = function(json){
     var out = {};
     var out2 = {};
@@ -152,8 +174,8 @@ Model.prototype.search = function(q,facets,page){
         out.pair = [];
         for (var i in facets){
             var facet = facets[i];
-            out.pair.push({"property_id":this.property_dict[facet[0]],"value":facet[1]});
-            //out.pair.push({"property":facet[0],"value":facet[1]});
+            //out.pair.push({"property_id":this.property_dict[facet[0]],"value":facet[1]});
+            out.pair.push({"property_name":facet[0],"value":facet[1]});
         }
     }
     m.query = q;

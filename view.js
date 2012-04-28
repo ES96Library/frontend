@@ -102,8 +102,7 @@ View.prototype.draw_grid = function(item_list){
 
     //reapply selected class
     for (i in iids){
-        console.log(iids[i]);
-        console.log($('[iid="'+iids[i]+'"]').find('.thumbnail').addClass('selected_thumbnail'));
+        $('[iid="'+iids[i]+'"]').find('.thumbnail').addClass('selected_thumbnail');
     }
 }
 View.prototype.draw_list = function(item_list){
