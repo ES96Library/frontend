@@ -254,7 +254,7 @@ show_edit_modal = function(){
 		html += '<td class="imageholder" id="image">';
 		//height:'+height+'px;width:'+width+'px;
 		
-		html += '<a href="' + img + '" class="myimglink"><img src="' + img + '"id=myimg'+i+' class="myimg"></img></a></td>';
+		html += '<a href="' + item_list[i].image + '" class="myimglink"><img src="' + img + '"id=myimg'+i+' class="myimg"></img></a></td>';
 
 		//display metadata on the right
 		html += '<td id="metadata" style="padding:15px">';

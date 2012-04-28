@@ -103,7 +103,7 @@ Model.prototype.parse = function(json){
             else
                 new_metadata[k] = [v];
         }
-        var new_item = new Item(item_id,item_json[1].thumb,item_json[1].preview,item_json[1].thumb,new_metadata);
+        var new_item = new Item(item_id,item_json[1].image,item_json[1].preview,item_json[1].thumb,new_metadata);
         out.push(new_item);
     }
 
