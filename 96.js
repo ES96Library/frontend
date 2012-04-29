@@ -96,7 +96,14 @@ submit_edit = function(){
     });
 };
 var activeConnections = 0;
-add_value = function(item_id, prop_name, val){
+var duplog = {};
+add_value = function(item_id, pn, v){
+    var prop_name = $.trim(pn);
+    var val = $.trim(v);
+    if ([item_id,prop_name,val] in duplog)
+        return false;
+    
+    duplog[[item_id,prop_name,val]] = true;
     var data = {"item":{
         "values_attributes":{
             "0":{
@@ -110,6 +117,7 @@ add_value = function(item_id, prop_name, val){
         "id":item_id
     };
     activeConnections += 1;
+    console.log([item_id,prop_name,val]);
     $.ajax({
         type: 'PUT',
         url:'http://hollre.com/items/'+item_id+'.json',
@@ -117,7 +125,7 @@ add_value = function(item_id, prop_name, val){
         data: data,
         complete: reload_if_done,
     });
-
+    return true;
 
 };
 destroy_value = function(id){
@@ -131,8 +139,10 @@ destroy_value = function(id){
 };
 reload_if_done = function(){
     activeConnections -= 1;
-    if (activeConnections == 0)
-        location.reload();
+    if (activeConnections == 0){
+        console.log('done!');
+        //location.reload();
+    }
 };
 destroy_item_values = function(item_id){
     var vids = m.value_id_dict[item_id];
@@ -352,7 +362,6 @@ show_edit_modal = function(){
 		// on click of submit button, submit metadata
         $('#colorbox .submit_edit').click(function(){
             $(this).unbind().html('Saving...').addClass('disabled');
-            console.log(iid);
             destroy_item_values(iid);
             var fields = $('#colorbox textarea.val');
             fields.each(function(){
@@ -362,7 +371,6 @@ show_edit_modal = function(){
                     prop_name = $(this).closest('tr').find('textarea.key').val();
                 for (var i in vals){
                     if (vals[i].length > 0){
-                        console.log([iid,prop_name,vals[i]]);
                         add_value(iid,prop_name,vals[i]);
                     }
                 }
@@ -481,7 +489,7 @@ show_multi_edit_modal = function(){
 
     // on click of submit button, submit metadata
     $('#colorbox .submit_edit').click(function(){
-        //destroy_item_values(iid);
+        $(this).unbind().html('Saving...').addClass('disabled');
         var checks = $('#colorbox input[type="checkbox"]');
         checks.each(function(){
             if($(this).is(':checked')){
