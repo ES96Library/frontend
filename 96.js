@@ -141,7 +141,7 @@ reload_if_done = function(){
     activeConnections -= 1;
     if (activeConnections == 0){
         console.log('done!');
-        //location.reload();
+        location.reload();
     }
 };
 destroy_item_values = function(item_id){
