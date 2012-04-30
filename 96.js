@@ -45,7 +45,7 @@ new_search = function(query,kv_array,page,sort_by,order){
         });
     } else {
         $.ajax({
-            type: 'POST',
+            type: 'GET',
             url:'http://hollre.com/items/search.json',
             dataType:"json",
             data: search_json,
@@ -56,7 +56,7 @@ new_search = function(query,kv_array,page,sort_by,order){
             failure:init_with_everything
         });
         $.ajax({
-            type: 'POST',
+            type: 'GET',
             url:'http://hollre.com/values/filters.json',
             dataType:"json",
             data: search_json,
@@ -148,7 +148,6 @@ destroy_item_values = function(item_id){
     var vids = m.value_id_dict[item_id];
     for (var i in vids){
         destroy_value(vids[i]);
-        console.log('destroyed value '+vids[i]);
     }
 };
 
@@ -248,7 +247,7 @@ bind_grid_ui = function(){
     bind_more_button = function(){
         $('#morebutton').click(function(){
             var url = 'http://hollre.com/items/search.json';
-            var method = 'POST';
+            var method = 'GET';
             if (m.query.length == 0 && m.current.length == 0){
                 url = 'http://hollre.com/items.json';
                 method = 'GET';
