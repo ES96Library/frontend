@@ -252,9 +252,8 @@ bind_grid_ui = function(){
             var method = 'GET';
             if (m.query.length == 0 && m.current.length == 0){
                 url = 'http://hollre.com/items.json';
-                method = 'GET';
             }
-            var search_json = m.search(m.query,m.current,m.page+1);
+            var search_json = m.search(m.query,m.current,m.page+1,m.sort_by,m.order);
             $.ajax({
                 type:method,
                 url:url,
