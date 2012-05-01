@@ -39,8 +39,10 @@ new_search = function(query,kv_array,page,sort_by,order){
             },
         });
         $.ajax({
+            type: 'GET',
             url:'http://hollre.com/values/filters.json',
             dataType:"json",
+            data:{sort_by:sort_by,order:order},
             success:update_filters,
         });
     } else {

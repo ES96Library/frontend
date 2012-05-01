@@ -18,8 +18,7 @@ function Model(){
     this.sort_by = '';
     this.order = 'ASC';
 
-    this.property_dict = {'':''};
-    this.prop_id_dict = {};
+    this.property_dict = {};
     this.autocomplete_dict = {};
     this.value_id_dict = {};
     this.pv_index = {};
@@ -85,15 +84,15 @@ Model.prototype.update_filters = function(json){
     //store suggested in format
     //{key1:{val1:3,val2:2},key2:{val3:4,val4:1,val5:7}}
     //console.log(json);
-    var out = {}
+    var out = {};
+    var out2 = {'':''};
 
     for (var i in json){
         var ith = json[i];
         var key = ith.name;
         var kid = ith.id;
 
-        this.property_dict[kid] = key;
-        this.prop_id_dict[key] = kid;
+        out2[kid] = key;
         
         if (!(key in this.autocomplete_dict))
             this.autocomplete_dict[key] = {};
@@ -114,6 +113,7 @@ Model.prototype.update_filters = function(json){
     }
 
     this.suggested = out;
+    this.property_dict = out2;
 
 }
 Model.prototype.update_autocomplete_dict = function(data){
